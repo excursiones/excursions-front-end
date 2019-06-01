@@ -90,10 +90,18 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
+
+    var adminRoutes;
+    if(routes != undefined) {
+      adminRoutes = routes.filter(route => route.layout == "/admin");
+    } else {
+      console.log("undefined routes: admin");
+    }
+
     return (
       <div className={classes.wrapper}>
         <Sidebar
-          routes={routes}
+          routes={adminRoutes}
           logoText={"Creative Tim"}
           logo={logo}
           image={this.state.image}
@@ -104,7 +112,7 @@ class Dashboard extends React.Component {
         />
         <div className={classes.mainPanel} ref="mainPanel">
           <Navbar
-            routes={routes}
+            routes={adminRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
             {...rest}
           />

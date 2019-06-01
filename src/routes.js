@@ -8,24 +8,34 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
-import DashboardPage from "views/Dashboard/Dashboard.jsx";
-import UserProfile from "views/UserProfile/UserProfile.jsx";
-import TableList from "views/TableList/TableList.jsx";
-import Typography from "views/Typography/Typography.jsx";
-import Icons from "views/Icons/Icons.jsx";
-import Maps from "views/Maps/Maps.jsx";
-import NotificationsPage from "views/Notifications/Notifications.jsx";
-import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.jsx";
+import DashboardPage from "views/Admin/Dashboard/Dashboard.jsx";
+import UserProfile from "views/Admin/UserProfile/UserProfile.jsx";
+import TableList from "views/Admin/TableList/TableList.jsx";
+import Typography from "views/Admin/Typography/Typography.jsx";
+import Icons from "views/Admin/Icons/Icons.jsx";
+import Maps from "views/Admin/Maps/Maps.jsx";
+import NotificationsPage from "views/Admin/Notifications/Notifications.jsx";
+import UpgradeToPro from "views/Admin/UpgradeToPro/UpgradeToPro.jsx";
+import HomePage from "views/User/Home/Home.jsx";
+
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.jsx";
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/home",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
+    layout: "/user"
+  },
+  {
+    path: "/home",
+    name: "Home",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: HomePage,
     layout: "/admin"
   },
   {
