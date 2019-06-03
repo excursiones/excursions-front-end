@@ -140,15 +140,6 @@ const switchRoutes = (
                     }
                     
                     {this.getRoute() ? <Footer /> : null}
-                    
-                    <FixedPlugin
-                    handleImageClick={this.handleImageClick}
-                    handleColorClick={this.handleColorClick}
-                    bgColor={this.state["color"]}
-                    bgImage={this.state["image"]}
-                    handleFixedClick={this.handleFixedClick}
-                    fixedClasses={this.state.fixedClasses}
-                    />
                     </div>
                     </div>
                     );

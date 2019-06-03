@@ -17,6 +17,8 @@ import Maps from "views/Admin/Maps/Maps.jsx";
 import NotificationsPage from "views/Admin/Notifications/Notifications.jsx";
 import UpgradeToPro from "views/Admin/UpgradeToPro/UpgradeToPro.jsx";
 import HomePage from "views/User/Home/Home.jsx";
+import ReservationsPage from "views/User/Home/Home.jsx";
+import TransactionsPage from "views/User/Home/Home.jsx";
 
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.jsx";
@@ -24,18 +26,35 @@ import RTLPage from "views/RTLPage/RTLPage.jsx";
 const dashboardRoutes = [
   {
     path: "/home",
-    name: "Dashboard",
-    rtlName: "لوحة القيادة",
+    name: "Excursiones",
+    rtlName: "Excursions",
     icon: Dashboard,
-    component: DashboardPage,
+    component: HomePage,
     layout: "/user"
   },
+  {
+    path: "/reservations",
+    name: "Reservaciones",
+    rtlName: "Reservations",
+    icon: Dashboard,
+    component: ReservationsPage,
+    layout: "/user"
+  },
+  {
+    path: "/transactions",
+    name: "Transacciones",
+    rtlName: "Transactions",
+    icon: Dashboard,
+    component: TransactionsPage,
+    layout: "/user"
+  },
+  // Admin
   {
     path: "/home",
     name: "Home",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
-    component: HomePage,
+    component: DashboardPage,
     layout: "/admin"
   },
   {
