@@ -46,14 +46,6 @@ const dashboardRoutes = [
     component: ReservationsPage,
     layout: "/user"
   },
-  {
-    path: "/transactions",
-    name: "Transacciones",
-    rtlName: "Transactions",
-    icon: Dashboard,
-    component: TransactionsPage,
-    layout: "/user"
-  },
   // Admin
   {
     path: "/transactions",
@@ -88,17 +80,19 @@ const dashboardRoutes = [
     icon: Dashboard,
     component: TransactionsUser,
     layout: "/user",
-    path: "/allies",
-    name: "Allies",
-    icon: "",
-    component: Allies,
-    layout: "/admin"
   },
   {
     path: "/excursions",
     name: "Excursions",
-    icon: "",
+    icon: Dashboard,
     component: Excursions,
+    layout: "/admin"
+  },
+  {
+    path: "/allies",
+    name: "Allies",
+    icon: Dashboard,
+    component: Allies,
     layout: "/admin"
   }
 ];
