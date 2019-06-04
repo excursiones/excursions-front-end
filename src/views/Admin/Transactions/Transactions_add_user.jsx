@@ -10,7 +10,7 @@ import Store from "@material-ui/icons/Store";
 import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
 import LocalOffer from "@material-ui/icons/LocalOffer";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
@@ -32,11 +32,11 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import { bugs, website, server } from "variables/general.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import { NavLink } from "react-router-dom";
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import { makeStyles } from "@material-ui/core/styles";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 
 import {
@@ -53,7 +53,6 @@ class TransactionsUserAdd extends React.Component {
     price: "",
     or_account: "",
     fn_account: ""
-
   };
 
   handleChange = (event, val) => {
@@ -64,27 +63,30 @@ class TransactionsUserAdd extends React.Component {
     this.setState({ value: index });
   };
   handleSubmitForm = () => {
-    var query = `mutation {
+    var query =
+      `mutation {
                   createUserPayment(user_payment: {
-                    user_id: `+ this.state.user +
-      ` price: ` + this.state.price +
-      ` origin_account: "` + this.state.or_account +
-      `" destination_account: "` + this.state.fn_account +
+                    user_id: ` +
+      this.state.user +
+      ` price: ` +
+      this.state.price +
+      ` origin_account: "` +
+      this.state.or_account +
+      `" destination_account: "` +
+      this.state.fn_account +
       `"}) {
                     id
                   }
-                }`
-    fetch(`http://192.168.99.101:5000/graphql`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+                }`;
+    fetch(`http://192.168.99.100:5000/graphql`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         query: query
       })
-    })
-      .then(window.location.href = "http://localhost:3000/user/transactions")
-  }
+    }).then((window.location.href = "http://localhost:3000/user/transactions"));
+  };
   handleChangeSp = (ent, val) => {
-
     this.setState({ [ent]: val.target.value });
   };
   render() {
@@ -111,7 +113,6 @@ class TransactionsUserAdd extends React.Component {
                       inputProps={{
                         onChange: (e, value) => this.handleChangeSp("user", e),
                         type: "number"
-
                       }}
                     />
                   </GridItem>
@@ -128,7 +129,6 @@ class TransactionsUserAdd extends React.Component {
                       inputProps={{
                         onChange: (e, value) => this.handleChangeSp("price", e),
                         type: "number"
-
                       }}
                     />
                   </GridItem>
@@ -141,7 +141,8 @@ class TransactionsUserAdd extends React.Component {
                       }}
                       value={this.state.or_account}
                       inputProps={{
-                        onChange: (e, value) => this.handleChangeSp("or_account", e),
+                        onChange: (e, value) =>
+                          this.handleChangeSp("or_account", e)
                       }}
                     />
                   </GridItem>
@@ -156,16 +157,16 @@ class TransactionsUserAdd extends React.Component {
                       }}
                       value={this.state.fn_account}
                       inputProps={{
-                        onChange: (e, value) => this.handleChangeSp("fn_account", e),
+                        onChange: (e, value) =>
+                          this.handleChangeSp("fn_account", e)
                       }}
                     />
                   </GridItem>
-
                 </GridContainer>
 
                 <Button color="success" onClick={this.handleSubmitForm}>
                   Add transaction
-                    </Button>
+                </Button>
               </CardBody>
             </Card>
           </GridItem>

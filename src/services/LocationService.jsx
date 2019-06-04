@@ -24,7 +24,7 @@ class LocationService {
               resolve({
                 lat: res.lat,
                 lon: res.lon,
-                city: json["results"][5]["formatted_address"]
+                city: json["results"][5]["formatted_address"] || "Bogotá, DC"
               });
             })
             .catch(err => error(err));

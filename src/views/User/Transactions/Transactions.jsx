@@ -29,7 +29,7 @@ class TransactionsUser extends React.Component {
   };
 
   componentDidMount() {
-    fetch(`http://192.168.99.101:5000/graphql`, {
+    fetch(`http://192.168.99.100:5000/graphql`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -47,11 +47,16 @@ class TransactionsUser extends React.Component {
     })
       .then(res => res.json())
       .then(res => {
-        for (var i = 0; i < res.data.allUserPayments.length; i++) {
-          var data = Array.from(Object.values(res.data.allUserPayments[i]));
-          this.setState(prevState => ({
-            transactions_users: [...prevState.transactions_users, data]
-          }));
+        if (
+          res["data"] != undefined &&
+          res["data"]["allUserPayments"] != null
+        ) {
+          for (var i = 0; i < res.data.allUserPayments.length; i++) {
+            var data = Array.from(Object.values(res.data.allUserPayments[i]));
+            this.setState(prevState => ({
+              transactions_users: [...prevState.transactions_users, data]
+            }));
+          }
         }
       });
   }
