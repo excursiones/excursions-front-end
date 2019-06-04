@@ -128,7 +128,7 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: TransactionsUserAdd,
-    layout: "/admin",
+    layout: "/user",
     nShow: true
   },
   {

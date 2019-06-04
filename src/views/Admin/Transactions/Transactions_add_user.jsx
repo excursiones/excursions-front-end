@@ -49,7 +49,11 @@ import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardS
 
 class TransactionsUserAdd extends React.Component {
   state = {
-    value: 10
+    user: "",
+    price: "",
+    or_account: "",
+    fn_account: ""
+
   };
 
   handleChange = (event, val) => {
@@ -59,7 +63,30 @@ class TransactionsUserAdd extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+  handleSubmitForm = () => {
+    var query = `mutation {
+                  createUserPayment(user_payment: {
+                    user_id: `+ this.state.user +
+      ` price: ` + this.state.price +
+      ` origin_account: "` + this.state.or_account +
+      `" destination_account: "` + this.state.fn_account +
+      `"}) {
+                    id
+                  }
+                }`
+    fetch(`http://192.168.99.101:5000/graphql`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: query
+      })
+    })
+      .then(window.location.href = "http://localhost:3000/user/transactions")
+  }
+  handleChangeSp = (ent, val) => {
 
+    this.setState({ [ent]: val.target.value });
+  };
   render() {
     const { classes } = this.props;
 
@@ -72,35 +99,36 @@ class TransactionsUserAdd extends React.Component {
                 <h4 className={classes.cardTitleWhite}>Add transaction</h4>
               </CardHeader>
               <CardBody>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="age-simple">User</InputLabel>
-                  <Select
-                    inputProps={{
-                      name: "age",
-                      id: "age-simple"
-                    }}
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                    style={{
-                      minWidth: 500,
-                      maxWidth: 500
-                    }}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-                </FormControl>
                 <GridContainer>
                   <GridItem xs={12} md={6} sm={12}>
                     <CustomInput
-                      labelText="Value"
-                      id="value"
+                      labelText="User ID"
+                      id="company"
                       formControlProps={{
                         fullWidth: true
+                      }}
+                      value={this.state.company}
+                      inputProps={{
+                        onChange: (e, value) => this.handleChangeSp("user", e),
+                        type: "number"
+
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} md={6} sm={12}>
+                    <CustomInput
+                      labelText="Price"
+                      id="price"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={this.state.price}
+                      inputProps={{
+                        onChange: (e, value) => this.handleChangeSp("price", e),
+                        type: "number"
+
                       }}
                     />
                   </GridItem>
@@ -110,6 +138,10 @@ class TransactionsUserAdd extends React.Component {
                       id="o_account"
                       formControlProps={{
                         fullWidth: true
+                      }}
+                      value={this.state.or_account}
+                      inputProps={{
+                        onChange: (e, value) => this.handleChangeSp("or_account", e),
                       }}
                     />
                   </GridItem>
@@ -122,12 +154,16 @@ class TransactionsUserAdd extends React.Component {
                       formControlProps={{
                         fullWidth: true
                       }}
+                      value={this.state.fn_account}
+                      inputProps={{
+                        onChange: (e, value) => this.handleChangeSp("fn_account", e),
+                      }}
                     />
                   </GridItem>
 
                 </GridContainer>
 
-                <Button color="success" to="/transaction-company-add">
+                <Button color="success" onClick={this.handleSubmitForm}>
                   Add transaction
                     </Button>
               </CardBody>

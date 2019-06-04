@@ -40,79 +40,127 @@ import {
 } from "variables/charts.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+import Http from 'services/RestService.jsx'
+
+require('isomorphic-fetch');
+
 
 class Transactions extends React.Component {
+
+
+
   state = {
-    value: 0
-  };
-  handleChange = (event, value) => {
-    this.setState({ value });
+    value: 0,
+    transactions_companies: [],
+    transactions_users: []
   };
 
-  handleChangeIndex = index => {
-    this.setState({ value: index });
-  };
-  render() {
-    const { classes } = this.props;
-    return (
-      <div>
 
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-            <Card>
-              <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Companies transactions</h4>
-              </CardHeader>
-              <CardBody>
-                <NavLink to="/admin/transaction-company-add">
-                  <Button color="primary">
-                    Add transaction
-              </Button>
-                </NavLink>
-                <Table
-                  tableHeaderColor="primary"
-                  tableHead={["ID", "Name", "Salary", "Country"]}
-                  tableData={[
-                    ["1", "Dakota Rice", "$36,738", "Niger"],
-                    ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                    ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                    ["4", "Philip Chaney", "$38,735", "Korea, South"]
-                  ]}
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
-        </GridContainer>
-
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-            <Card>
-              <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Users transactions</h4>
-              </CardHeader>
-              <CardBody>
-                <NavLink to="/admin/transaction-user-add">
-                  <Button color="primary">
-                    Add transaction
-                  </Button>
-                </NavLink>
-                <Table
-                  tableHeaderColor="primary"
-                  tableHead={["ID", "Name", "Salary", "Country"]}
-                  tableData={[
-                    ["1", "Dakota Rice", "$36,738", "Niger"],
-                    ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                    ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                    ["4", "Philip Chaney", "$38,735", "Korea, South"]
-                  ]}
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
-        </GridContainer>
-      </div>
-    );
+  componentDidMount() {
+    fetch(`http://192.168.99.101:5000/graphql`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `query{
+  allCompanyPayments {
+    id
+    company_id
+    price
+    date
+    origin_account
+    destination_account
   }
+}` })})
+      .then(res => res.json())
+      .then(res => {
+        for (var i = 0; i < res.data.allCompanyPayments.length; i++){
+          var data = Array.from(Object.values(res.data.allCompanyPayments[i]))
+          this.setState(prevState => ({
+            transactions_companies: [...prevState.transactions_companies, data]
+          }))
+        }
+      });
+
+    fetch(`http://192.168.99.101:5000/graphql`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `query{
+  allUserPayments {
+    id
+    user_id
+    price
+    date
+    origin_account
+    destination_account
+  }
+}` })
+    })
+      .then(res => res.json())
+      .then(res => {
+        for (var i = 0; i < res.data.allUserPayments.length; i++) {
+          var data = Array.from(Object.values(res.data.allUserPayments[i]))
+          this.setState(prevState => ({
+            transactions_users: [...prevState.transactions_users, data]
+          }))
+        }
+      });
+}
+
+handleChange = (event, value) => {
+  this.setState({ value });
+};
+
+handleChangeIndex = index => {
+  this.setState({ value: index });
+};
+render() {
+  const { classes } = this.props;
+  return (
+    <div>
+
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Companies transactions</h4>
+            </CardHeader>
+            <CardBody>
+              <NavLink to="/admin/transaction-company-add">
+                <Button color="primary">
+                  Add transaction
+              </Button>
+              </NavLink>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["ID", "Company id", "Price", "Date", "Origin Account", "Destiny Account"]}
+                tableData={this.state.transactions_companies}
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+      </GridContainer>
+
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Users transactions</h4>
+            </CardHeader>
+            <CardBody>
+              
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["ID", "User id", "Price", "Date", "Origin Account", "Destiny Account"]}
+                tableData={this.state.transactions_users}
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+      </GridContainer>
+    </div>
+  );
+}
 }
 
 Transactions.propTypes = {

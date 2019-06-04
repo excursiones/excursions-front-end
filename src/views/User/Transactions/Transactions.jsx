@@ -42,8 +42,10 @@ import {
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 class TransactionsUser extends React.Component {
+  
   state = {
-    value: 0
+    value: 0,
+    transactions_users: []
   };
   handleChange = (event, value) => {
     this.setState({ value });
@@ -52,6 +54,34 @@ class TransactionsUser extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+
+  componentDidMount() {
+    fetch(`http://192.168.99.101:5000/graphql`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `query{
+  allUserPayments {
+    id
+    user_id
+    price
+    date
+    origin_account
+    destination_account
+  }
+}` })
+    })
+      .then(res => res.json())
+      .then(res => {
+        for (var i = 0; i < res.data.allUserPayments.length; i++) {
+          var data = Array.from(Object.values(res.data.allUserPayments[i]))
+          this.setState(prevState => ({
+            transactions_users: [...prevState.transactions_users, data]
+          }))
+        }
+      });
+  }
+  
   render() {
     const { classes } = this.props;
     return (
@@ -63,15 +93,15 @@ class TransactionsUser extends React.Component {
                 <h4 className={classes.cardTitleWhite}>Transactions</h4>
               </CardHeader>
               <CardBody>
+                <NavLink to="/user/transaction-user-add">
+                  <Button color="primary">
+                    Add transaction
+                  </Button>
+                </NavLink>
                 <Table
                   tableHeaderColor="primary"
-                  tableHead={["ID", "Name", "Salary", "Country"]}
-                  tableData={[
-                    ["1", "Dakota Rice", "$36,738", "Niger"],
-                    ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                    ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                    ["4", "Philip Chaney", "$38,735", "Korea, South"]
-                  ]}
+                  tableHead={["ID", "User id", "Price", "Date", "Origin Account", "Destiny Account"]}
+                  tableData={this.state.transactions_users}
                 />
               </CardBody>
             </Card>
