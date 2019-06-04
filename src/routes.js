@@ -18,8 +18,10 @@ import NotificationsPage from "views/Admin/Notifications/Notifications.jsx";
 import UpgradeToPro from "views/Admin/UpgradeToPro/UpgradeToPro.jsx";
 import HomePage from "views/User/Home/Home.jsx";
 
+import Allies from "./views/Admin/Allies/Allies";
+import Excursions from "./views/Admin/Excursions/Excursions";
+
 // core components/views for RTL layout
-import RTLPage from "views/RTLPage/RTLPage.jsx";
 
 const dashboardRoutes = [
   {
@@ -95,12 +97,18 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/rtl-page",
-    name: "RTL Support",
-    rtlName: "پشتیبانی از راست به چپ",
-    icon: Language,
-    component: RTLPage,
-    layout: "/rtl"
+    path: "/allies",
+    name: "Allies",
+    icon: "",
+    component: Allies,
+    layout: "/admin"
+  },
+  {
+    path: "/excursions",
+    name: "Excursions",
+    icon: "",
+    component: Excursions,
+    layout: "/admin"
   }
 ];
 
