@@ -1,49 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 // react plugin for creating charts
-import ChartistGraph from "react-chartist";
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
-import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import Table from "components/Table/Table.jsx";
-import Tasks from "components/Tasks/Tasks.jsx";
-import CustomTabs from "components/CustomTabs/CustomTabs.jsx";
-import Danger from "components/Typography/Danger.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
-import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-import CardFooter from "components/Card/CardFooter.jsx";
-import { bugs, website, server } from "variables/general.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import { NavLink } from "react-router-dom";
-
-
-import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart
-} from "variables/charts.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 class TransactionsUser extends React.Component {
-  
   state = {
     value: 0,
     transactions_users: []
@@ -58,8 +30,8 @@ class TransactionsUser extends React.Component {
 
   componentDidMount() {
     fetch(`http://192.168.99.101:5000/graphql`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         query: `query{
   allUserPayments {
@@ -70,19 +42,20 @@ class TransactionsUser extends React.Component {
     origin_account
     destination_account
   }
-}` })
+}`
+      })
     })
       .then(res => res.json())
       .then(res => {
         for (var i = 0; i < res.data.allUserPayments.length; i++) {
-          var data = Array.from(Object.values(res.data.allUserPayments[i]))
+          var data = Array.from(Object.values(res.data.allUserPayments[i]));
           this.setState(prevState => ({
             transactions_users: [...prevState.transactions_users, data]
-          }))
+          }));
         }
       });
   }
-  
+
   render() {
     const { classes } = this.props;
     return (
@@ -95,13 +68,18 @@ class TransactionsUser extends React.Component {
               </CardHeader>
               <CardBody>
                 <NavLink to="/user/transaction-user-add">
-                  <Button color="primary">
-                    Add transaction
-                  </Button>
+                  <Button color="primary">Add transaction</Button>
                 </NavLink>
                 <Table
                   tableHeaderColor="primary"
-                  tableHead={["ID", "User id", "Price", "Date", "Origin Account", "Destiny Account"]}
+                  tableHead={[
+                    "ID",
+                    "User id",
+                    "Price",
+                    "Date",
+                    "Origin Account",
+                    "Destiny Account"
+                  ]}
                   tableData={this.state.transactions_users}
                 />
               </CardBody>

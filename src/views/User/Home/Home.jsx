@@ -57,12 +57,12 @@ class HomePage extends React.Component {
     Http.post(
       "",
       {
-        query:
-          "query { allExcursions { id title: name price coordinates: location description status } }"
+        query: "query { allExcursions { id title:name price coordinates:location description } }"
       },
       false,
       true
     ).then(res => {
+      console.log(res);
       this.setState({ excursions: res["data"]["data"]["allExcursions"] || [] });
     });
   }

@@ -74,13 +74,12 @@ class ExcursionItem extends React.Component {
 
   createBooking(e) {
     e.preventDefault();
-    console.log(this.props.id);
 
     Http.post(
       "",
       {
         query:
-          "mutation { createReservation(reservation: { id_user: 1 id_excursion: 1 id_type: 2 cancelled: false }) } "
+          "mutation { createReservation(reservation: { id_user: 1 id_excursion:" + this.props.id + " id_type: 2 cancelled: false }) } "
       },
       false,
       true
@@ -145,7 +144,8 @@ ExcursionItem.propTypes = {
   city: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
-  coordinates: PropTypes.object.isRequired
+  coordinates: PropTypes.object.isRequired,
+  status: PropTypes.object.isRequired
 };
 
 ExcursionItem.defaultProps = {
