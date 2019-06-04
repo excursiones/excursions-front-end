@@ -9,6 +9,8 @@ import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import DashboardPage from "views/Admin/Dashboard/Dashboard.jsx";
+import Transactions from "views/Admin/Transactions/Transactions.jsx";
+import TransactionsUser from "views/User/Transactions/Transactions.jsx";
 import UserProfile from "views/Admin/UserProfile/UserProfile.jsx";
 import TableList from "views/Admin/TableList/TableList.jsx";
 import Typography from "views/Admin/Typography/Typography.jsx";
@@ -17,7 +19,8 @@ import Maps from "views/Admin/Maps/Maps.jsx";
 import NotificationsPage from "views/Admin/Notifications/Notifications.jsx";
 import UpgradeToPro from "views/Admin/UpgradeToPro/UpgradeToPro.jsx";
 import HomePage from "views/User/Home/Home.jsx";
-
+import TransactionsCompanyAdd from "views/Admin/Transactions/Transactions_add_company.jsx";
+import TransactionsUserAdd from "views/Admin/Transactions/Transactions_add_user.jsx";
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.jsx";
 
@@ -101,6 +104,40 @@ const dashboardRoutes = [
     icon: Language,
     component: RTLPage,
     layout: "/rtl"
+  },
+  {
+    path: "/transactions",
+    name: "Transactions",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: Transactions,
+    layout: "/admin"
+  },
+  {
+    path: "/transaction-company-add",
+    name: "Companies Transactions",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: TransactionsCompanyAdd,
+    layout: "/admin",
+    nShow: true
+  },
+  {
+    path: "/transaction-user-add",
+    name: "Users Transactions",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: TransactionsUserAdd,
+    layout: "/admin",
+    nShow: true
+  },
+  {
+    path: "/transactions",
+    name: "Transactions",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: TransactionsUser,
+    layout: "/user",
   }
 ];
 
