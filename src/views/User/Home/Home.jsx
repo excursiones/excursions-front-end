@@ -9,6 +9,8 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import ExcursionItem from "components/Excursions/ExcursionItem.jsx";
 
+import Http from "../../../services/RestService.jsx";
+
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -48,9 +50,23 @@ class HomePage extends React.Component {
       tr: false,
       bl: false,
       bc: false,
-      br: false
+      br: false,
+      excursions: []
     };
+
+    Http.post(
+      "",
+      {
+        query:
+          "query { allExcursions { id title: name price coordinates: location description status } }"
+      },
+      false,
+      true
+    ).then(res => {
+      this.setState({ excursions: res["data"]["data"]["allExcursions"] || [] });
+    });
   }
+
   // to stop the warning of calling setState of unmounted component
   componentWillUnmount() {
     var id = window.setTimeout(null, 0);
@@ -90,11 +106,19 @@ class HomePage extends React.Component {
 
         <CardBody>
           <GridContainer>
-            {this.props.excursions.map(excursion => (
-              <GridItem xs={6} sm={6} md={4} key={excursion.title}>
-                <ExcursionItem {...excursion} />
-              </GridItem>
-            ))}
+            {this.state.excursions != undefined &&
+              this.state.excursions.map(excursion => (
+                <GridItem
+                  xs={12}
+                  sm={6}
+                  md={5}
+                  lg={4}
+                  xl={3}
+                  key={excursion.title}
+                >
+                  <ExcursionItem {...excursion} />
+                </GridItem>
+              ))}
           </GridContainer>
           <br />
         </CardBody>

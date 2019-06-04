@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "https://6e923b33-6196-414e-9002-341cab046083.mock.pstmn.io";
+const baseURL = "http://192.168.99.100:5000/graphql?";
 
 export default {
   process_error(error) {

@@ -15,6 +15,8 @@ import {
 import cardImagesStyles from "assets/jss/material-dashboard-react/cardImagesStyles.jsx";
 import { Typography } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Http from "../../services/RestService";
+import Snackbar from "components/Snackbar/Snackbar.jsx";
 
 const mapStyle = require("./map_style.json");
 
@@ -51,19 +53,69 @@ const styles = {
 class ExcursionItem extends React.Component {
   constructor(props) {
     super(props);
+    this.createBooking = this.createBooking.bind(this);
+    this.state = {
+      buttonColor: "danger"
+    };
+  }
+
+  showNotification(place) {
+    var x = [];
+    x[place] = true;
+    this.setState(x);
+    this.alertTimeout = setTimeout(
+      function() {
+        x[place] = false;
+        this.setState(x);
+      }.bind(this),
+      6000
+    );
+  }
+
+  createBooking(e) {
+    e.preventDefault();
+    console.log(this.props.id);
+
+    Http.post(
+      "",
+      {
+        query:
+          "mutation { createReservation(reservation: { id_user: 1 id_excursion: 1 id_type: 2 cancelled: false }) } "
+      },
+      false,
+      true
+    ).then(() => {
+      this.setState({ buttonColor: "success" });
+      this.showNotification("tl");
+    });
   }
 
   render() {
     const { classes } = this.props;
+    var coord = {};
+    try {
+      coord = JSON.parse(this.props.coordinates);
+    } catch (e) {
+      coord = { lat: 10.39972, lng: -75.51444 };
+    }
 
     return (
       <Card style={{ width: "20rem" }}>
+        <Snackbar
+          place="tl"
+          color="info"
+          message="Su excursión ha sido reservada con éxito"
+          open={this.state.tl}
+          closeNotification={() => this.setState({ tl: false })}
+          close
+        />
+
         <Map
           className={classes.cardImgTop}
           data-src="holder.js/100px180/"
           alt="100%x180"
           data-holder-rendered="true"
-          coordinates={this.props.coordinates}
+          coordinates={{ lat: coord["lat"], lng: coord["lng"] }}
         />
         <CardBody>
           <Typography variant="h5">{this.props.title}</Typography>
@@ -72,7 +124,13 @@ class ExcursionItem extends React.Component {
           </Typography>
           <p>{this.props.description}</p>
           <div className={classes.textRight}>
-            <Button color="danger">{this.props.price}</Button>
+            <Button
+              color={this.state.buttonColor}
+              onClick={this.createBooking}
+              disabled={this.state.buttonColor == "success"}
+            >
+              {this.props.price}
+            </Button>
           </div>
         </CardBody>
       </Card>
@@ -81,6 +139,7 @@ class ExcursionItem extends React.Component {
 }
 
 ExcursionItem.propTypes = {
+  id: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
