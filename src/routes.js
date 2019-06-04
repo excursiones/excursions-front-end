@@ -19,10 +19,16 @@ import Maps from "views/Admin/Maps/Maps.jsx";
 import NotificationsPage from "views/Admin/Notifications/Notifications.jsx";
 import UpgradeToPro from "views/Admin/UpgradeToPro/UpgradeToPro.jsx";
 import HomePage from "views/User/Home/Home.jsx";
+<<<<<<< HEAD
 import TransactionsCompanyAdd from "views/Admin/Transactions/Transactions_add_company.jsx";
 import TransactionsUserAdd from "views/Admin/Transactions/Transactions_add_user.jsx";
+=======
+
+import Allies from "./views/Admin/Allies/Allies";
+import Excursions from "./views/Admin/Excursions/Excursions";
+
+>>>>>>> origin/front_by_jeffer
 // core components/views for RTL layout
-import RTLPage from "views/RTLPage/RTLPage.jsx";
 
 const dashboardRoutes = [
   {
@@ -138,6 +144,18 @@ const dashboardRoutes = [
     icon: Dashboard,
     component: TransactionsUser,
     layout: "/user",
+    path: "/allies",
+    name: "Allies",
+    icon: "",
+    component: Allies,
+    layout: "/admin"
+  },
+  {
+    path: "/excursions",
+    name: "Excursions",
+    icon: "",
+    component: Excursions,
+    layout: "/admin"
   }
 ];
 
