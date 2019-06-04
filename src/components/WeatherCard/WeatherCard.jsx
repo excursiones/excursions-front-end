@@ -1,19 +1,18 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import withStyles from "@material-ui/core/styles/withStyles";
-// core components
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+
+import cardImagesStyles from "assets/jss/material-dashboard-react/cardImagesStyles.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import Muted from "components/Typography/Muted";
 
 import Http from "../../services/RestService.jsx";
 import LocationService from "../../services/LocationService";
-
-import PropTypes from "prop-types";
-
-import cardImagesStyles from "assets/jss/material-dashboard-react/cardImagesStyles.jsx";
 
 const months = [
   "Enero",
@@ -84,7 +83,7 @@ class WeatherCard extends React.Component {
 
     return (
       <div>
-        <Card style={{ width: "98%", "margin-left": "2px" }}>
+        <Card style={{ width: "98%", "marginLeft": "2px" }}>
           <CardBody>
             <h4 className={classes.cardTitle} style={{ margin: "4px" }}>
               {this.state.city}
@@ -98,14 +97,14 @@ class WeatherCard extends React.Component {
 
             <br />
 
-            <Grid container>
-              <Grid item xs={3} spacing={4}>
+            <Grid container spacing={8}>
+              <Grid item xs={3}>
                 <img
                   alt={this.state.weather["description"]}
                   style={{ height: "50px", width: "50px" }}
                   src={
                     "http://openweathermap.org/img/w/" +
-                    this.state.weather["icon"] +
+                    (this.state.weather["icon"] || "10d") +
                     ".png"
                   }
                   aspectRatio={2 / 1}
@@ -132,4 +131,3 @@ WeatherCard.propTypes = {
 };
 
 export default withStyles(styles)(WeatherCard);
-// export default WeatherCard;

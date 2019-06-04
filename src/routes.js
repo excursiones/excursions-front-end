@@ -19,98 +19,42 @@ import Maps from "views/Admin/Maps/Maps.jsx";
 import NotificationsPage from "views/Admin/Notifications/Notifications.jsx";
 import UpgradeToPro from "views/Admin/UpgradeToPro/UpgradeToPro.jsx";
 import HomePage from "views/User/Home/Home.jsx";
-<<<<<<< HEAD
 import TransactionsCompanyAdd from "views/Admin/Transactions/Transactions_add_company.jsx";
 import TransactionsUserAdd from "views/Admin/Transactions/Transactions_add_user.jsx";
-=======
+import ReservationsPage from "views/User/Home/Home.jsx";
+import TransactionsPage from "views/User/Home/Home.jsx";
 
 import Allies from "./views/Admin/Allies/Allies";
 import Excursions from "./views/Admin/Excursions/Excursions";
 
->>>>>>> origin/front_by_jeffer
 // core components/views for RTL layout
 
 const dashboardRoutes = [
   {
     path: "/home",
-    name: "Dashboard",
-    rtlName: "لوحة القيادة",
+    name: "Excursiones",
+    rtlName: "Excursions",
     icon: Dashboard,
-    component: DashboardPage,
+    component: HomePage,
     layout: "/user"
   },
   {
-    path: "/home",
-    name: "Home",
-    rtlName: "لوحة القيادة",
+    path: "/reservations",
+    name: "Reservaciones",
+    rtlName: "Reservations",
     icon: Dashboard,
-    component: HomePage,
-    layout: "/admin"
+    component: ReservationsPage,
+    layout: "/user"
   },
   {
-    path: "/user",
-    name: "User Profile",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: Person,
-    component: UserProfile,
-    layout: "/admin"
+    path: "/transactions",
+    name: "Transacciones",
+    rtlName: "Transactions",
+    icon: Dashboard,
+    component: TransactionsPage,
+    layout: "/user"
   },
-  {
-    path: "/table",
-    name: "Table List",
-    rtlName: "قائمة الجدول",
-    icon: "content_paste",
-    component: TableList,
-    layout: "/admin"
-  },
-  {
-    path: "/typography",
-    name: "Typography",
-    rtlName: "طباعة",
-    icon: LibraryBooks,
-    component: Typography,
-    layout: "/admin"
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    rtlName: "الرموز",
-    icon: BubbleChart,
-    component: Icons,
-    layout: "/admin"
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    rtlName: "خرائط",
-    icon: LocationOn,
-    component: Maps,
-    layout: "/admin"
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    rtlName: "إخطارات",
-    icon: Notifications,
-    component: NotificationsPage,
-    layout: "/admin"
-  },
-  {
-    path: "/upgrade-to-pro",
-    name: "Upgrade To PRO",
-    rtlName: "التطور للاحترافية",
-    icon: Unarchive,
-    component: UpgradeToPro,
-    layout: "/admin"
-  },
-  {
-    path: "/rtl-page",
-    name: "RTL Support",
-    rtlName: "پشتیبانی از راست به چپ",
-    icon: Language,
-    component: RTLPage,
-    layout: "/rtl"
-  },
+  // Admin
   {
     path: "/transactions",
     name: "Transactions",
