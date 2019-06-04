@@ -110,6 +110,7 @@ const switchRoutes = (
             return (
                 <div className={classes.wrapper}>
                 <Sidebar
+                withWeather={true}
                 routes={userRoutes}
                 logoText={"Excursions"}
                 logo={logo}
