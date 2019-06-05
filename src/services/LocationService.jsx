@@ -21,10 +21,18 @@ class LocationService {
           response
             .json()
             .then(json => {
+              var m = "Bogotá DC.";
+              if (
+                json["results"] != undefined &&
+                json["results"][5] &&
+                json["results"][5]["formatted_address"]
+              ) {
+                m = json["results"][5]["formatted_address"];
+              }
               resolve({
                 lat: res.lat,
                 lon: res.lon,
-                city: json["results"][5]["formatted_address"] || "Bogotá, DC"
+                city: m
               });
             })
             .catch(err => error(err));
