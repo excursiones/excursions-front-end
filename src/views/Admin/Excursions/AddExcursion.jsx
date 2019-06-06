@@ -1,7 +1,8 @@
 import React from "react";
 import GridContainer from "../../../components/Grid/GridContainer";
-import GridItem from "../../../components/Grid/GridItem";
-import CustomInput from "../../../components/CustomInput/CustomInput";
+import Field from "../ShowInfo/Field"
+import SaveButton from "../ShowInfo/SaveButton";
+import HTTP from "../../../services/RestService"
 
 const fields = [
     {
@@ -41,26 +42,45 @@ const fields = [
 
 export default class AddExcursion extends React.Component {
 
+    constructor(props) {
+        super(props)
+        this.data = {}
+    }
+
+    onChange = (event) => {
+        const { name, value } = event.target;
+        ((typeof this.data[name] === "string") ? (value.trim() != this.data[name].trim()) : true) && (this.data[name] = value);
+        (name === "name") && this.setState({
+            name: value
+        })
+    }
+
+    onSave = () => {
+        console.log(this.data);
+    }
+
     render() {
         return (
             <div>
                 <GridContainer>
-                    {fields.map((fields, index) => (
-                        <GridItem xs={12} sm={12} md={4} key={index}>
-                            <CustomInput
-                                labelText={fields.labelText}
-                                id={fields.id}
-                                formControlProps={{
-                                    fullWidth: true
-                                }}
-                                inputProps={{
-                                    readOnly: false,
-                                    multiline: (fields.id === "description")
-                                }}
-                            />
-                        </GridItem>
+                    {fields.map((field, index) => (
+                        <Field key={index}
+                            labelText={field.labelText}
+                            id={field.id}
+                            formControlProps={{
+                                fullWidth: true,
+                                required: true
+                            }}
+                            inputProps={{
+                                onChange: this.onChange,
+                                name: field.id,
+                                required: true,
+                                multiline: (field.id === "description")
+                            }}
+                        />
                     ))}
                 </GridContainer>
+                <SaveButton onSave={this.onSave} />
             </div>
         )
     }

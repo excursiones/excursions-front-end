@@ -45,13 +45,21 @@ const fields = [
     }
 ]
 
+const readOnlyFields = {
+    id: "id"
+}
+
+const requiredFields = {
+
+}
+
 export default class ShowAllExcursions extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             // Datos de Prueba
-            data: [{
+            excursions: [{
                 id: 1,
                 "name": "Excursion Name 1",
                 "price": "$ 1000",
@@ -69,12 +77,35 @@ export default class ShowAllExcursions extends React.Component {
         // GET request para obtener todos las Empresas
     }
 
+    deleteExcursion = (index) => {
+        console.log(index);
+
+    }
+
+    updateExcursion = (index, data) => {
+        const { excursions } = this.state;
+        excursions[index] = data;
+        this.setState({
+            excursions: excursions
+        })
+        console.log(this.state.excursions[index]);
+
+    }
+
     render() {
         return (
             <div>
                 {
-                    this.state.data.map((data) => (
-                        < ExcursionDetails data={data} fields={fields} />
+                    this.state.excursions && this.state.excursions.map((data, index) => (
+                        < ExcursionDetails
+                            data={data}
+                            onDelete={this.deleteExcursion}
+                            onSave={this.updateExcursion}
+                            requiredFields={requiredFields}
+                            readOnlyFields={readOnlyFields}
+                            key={"excursion" + index}
+                            index={index}
+                            fields={fields} />
                     ))
                 }
             </div>

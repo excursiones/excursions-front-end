@@ -25,6 +25,17 @@ const fields = [
     }
 ]
 
+const excursionFields = [
+    {
+        labelText: "Excursion Id",
+        id: "excursion-id"
+    }
+]
+
+const readOnlyFields = {
+    id: "id"
+}
+
 export default class ShowAllPackages extends React.Component {
 
     constructor(props) {
@@ -43,12 +54,31 @@ export default class ShowAllPackages extends React.Component {
         // GET request para obtener todos las Empresas
     }
 
+    deletePackage = (index) => {
+        console.log(index);
+
+    }
+
+    onSave = (index, data) => {
+        console.log(index, data);
+
+    }
+
     render() {
         return (
             <div>
                 {
-                    this.state.data.map((data) => (
-                        < PackageDetails data={data} fields={fields} />
+                    this.state.data.map((data, index) => (
+                        < PackageDetails
+                            key={index}
+                            data={data}
+                            fields={fields}
+                            id={index}
+                            readOnlyFields={readOnlyFields}
+                            onDelete={this.deletePackage}
+                            onSave={this.onSave}
+                            requiredFields={fields}
+                            excursionFields={excursionFields} />
                     ))
                 }
             </div>
