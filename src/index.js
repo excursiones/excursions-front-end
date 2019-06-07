@@ -8,6 +8,7 @@ import Admin from "layouts/Admin.jsx";
 import User from "layouts/User.jsx";
 import RTL from "layouts/RTL.jsx";
 
+
 import "assets/css/material-dashboard-react.css?v=1.6.0";
 
 const hist = createBrowserHistory();
@@ -15,7 +16,7 @@ const hist = createBrowserHistory();
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
-      <Route path="/user" component={User} />
+      <Route path="/user" component={User} />      
       <Route path="/admin" component={Admin} />
       <Route path="/rtl" component={RTL} />
       <Redirect from="/" to="/admin/home" />

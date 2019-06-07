@@ -7,6 +7,7 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
+import CardTravel from "@material-ui/icons/CardTravel";
 // core components/views for Admin layout
 import DashboardPage from "views/Admin/Dashboard/Dashboard.jsx";
 import UserProfile from "views/Admin/UserProfile/UserProfile.jsx";
@@ -17,9 +18,11 @@ import Maps from "views/Admin/Maps/Maps.jsx";
 import NotificationsPage from "views/Admin/Notifications/Notifications.jsx";
 import UpgradeToPro from "views/Admin/UpgradeToPro/UpgradeToPro.jsx";
 import HomePage from "views/User/Home/Home.jsx";
-
+import Reservations from 'views/User/Reservations/Reservations.jsx';
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.jsx";
+
+
 
 const dashboardRoutes = [
   {
@@ -101,6 +104,14 @@ const dashboardRoutes = [
     icon: Language,
     component: RTLPage,
     layout: "/rtl"
+  },
+  {
+    path: "/reservations",
+    name: "Reservations",
+    rtlName: "لوحة القيادة",
+    icon: CardTravel,
+    component: Reservations,
+    layout: "/user"
   }
 ];
 
