@@ -51,7 +51,7 @@ class Transactions extends React.Component {
   };
 
   componentDidMount() {
-    fetch(`http://192.168.99.100:5000/graphql`, {
+    fetch(`http://3.130.38.243:5000/graphql`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -77,7 +77,7 @@ class Transactions extends React.Component {
         }
       });
 
-    fetch(`http://192.168.99.100:5000/graphql`, {
+    fetch(`http://3.130.38.243:5000/graphql`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

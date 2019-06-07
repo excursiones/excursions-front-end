@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://192.168.99.100:5000/graphql?";
+const baseURL = "http://3.130.38.243:5000/graphql?";
 
 export default {
   process_error(error) {

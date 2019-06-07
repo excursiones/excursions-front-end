@@ -78,13 +78,13 @@ class TransactionsUserAdd extends React.Component {
                     id
                   }
                 }`;
-    fetch(`http://192.168.99.100:5000/graphql`, {
+    fetch(`http://3.130.38.243:5000/graphql`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         query: query
       })
-    }).then((window.location.href = "http://localhost:3000/user/transactions"));
+    }).then((window.location.href = "http://	3.130.38.143:3000/user/transactions"));
   };
   handleChangeSp = (ent, val) => {
     this.setState({ [ent]: val.target.value });
