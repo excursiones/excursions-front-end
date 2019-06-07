@@ -18,7 +18,7 @@ ReactDOM.render(
       <Route path="/user" component={User} />
       <Route path="/admin" component={Admin} />
       <Route path="/rtl" component={RTL} />
-      <Redirect from="/" to="/admin/home" />
+      <Redirect from="/" to="/admin/transactions" />
     </Switch>
   </Router>,
   document.getElementById("root")

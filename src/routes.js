@@ -9,6 +9,7 @@ import TransactionsUserAdd from "views/Admin/Transactions/Transactions_add_user.
 import Transactions from "views/Admin/Transactions/Transactions.jsx";
 import Allies from "./views/Admin/Allies/Allies";
 import Excursions from "./views/Admin/Excursions/Excursions";
+import UserProfile from "./views/Admin/UserProfile/UserProfile.jsx";
 
 const dashboardRoutes = [
   {
@@ -20,14 +21,6 @@ const dashboardRoutes = [
     layout: "/user"
   },
   {
-    path: "/reservations",
-    name: "Reservaciones",
-    rtlName: "Reservations",
-    icon: Dashboard,
-    component: ReservationsPage,
-    layout: "/user"
-  },
-  {
     path: "/transactions",
     name: "Transacciones",
     rtlName: "Transactions",
@@ -36,6 +29,14 @@ const dashboardRoutes = [
     layout: "/user"
   },
   // Admin
+  {
+    path: "/home",
+    name: "User View!",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: UserProfile,
+    layout: "/admin"
+  },
   {
     path: "/transactions",
     name: "Transactions",
