@@ -1,11 +1,27 @@
-import React, { Component } from 'react'
-import axios from 'axios';
-// core components
+import React from "react";
+import Http from "services/RestService.jsx";
+
 import Reservation from 'views/User/Reservations/Reservation.jsx';
 import Grid from "@material-ui/core/Grid";
+import CardHeader from "components/Card/CardHeader.jsx";
+import Card from "components/Card/Card.jsx";
+import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+var styles = {
+  ...dashboardStyle,
+  cardTitle: {
+    marginTop: "0",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none"
+  }
+};
 
 
-export default class Reservations extends Component {  
+class Reservations extends React.Component {  
 
   constructor() {
     super();
@@ -15,32 +31,41 @@ export default class Reservations extends Component {
   }  
 
   componentDidMount (){
-/*    axios.get(`192.168.99.101:3000/reservations/1`)
-    .then((response) => {
-        console.log(response)
-        const reservations = response.data;
-        this.setState({reservations});
-        
-    })
-    .catch(function (error) {
-        console.log(error);
-    });  */
+    Http.get(
+      "",
+      {
+        query:
+        'query { reservationsByUserId(User_id: "1"){Excursion_id Type_id Cancelled Created_at}}'
+      },
+      false,
+      true
+    ).then((response) => {
+      console.log(response)
+      const reservations = response.data.reservationsByUserId;
+      this.setState({reservations});      
+    });
+
   }   
 
-  render() {    
+  render() {  
+    const { classes } = this.props;  
     return (
       <div> 
-           
+        <Card>
+        <CardHeader color="primary">
+                <h4 className={classes.cardTitle}>Reservations</h4>
+        </CardHeader> 
+        </Card>          
         <Grid>            
             {this.state.reservations.map((reservation) => {
               return <Reservation 
-              key = {reservation.id}
-              id = {reservation.id}
-              fecha = {reservation.created_at}
-              user_id = {reservation.id_user}
-              id_excursion = {reservation.id_excursion}
-              id_type = {reservation.id_type}
-              cancelled = {reservation.cancelled} />
+              key = {reservation.Id}
+              id = {reservation.Id}
+              fecha = {reservation.Created_at}
+              user_id = {reservation.User_id}
+              id_excursion = {reservation.Excursion_id}
+              id_type = {reservation.Type_id}
+              cancelled = {reservation.Cancelled} />
             })}                   
         </Grid>
       </div>        
@@ -48,6 +73,6 @@ export default class Reservations extends Component {
   }
 }
 
-
+export default withStyles(styles)(Reservations);
 
 

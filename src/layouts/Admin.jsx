@@ -11,7 +11,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Navbar from "components/Navbars/Navbar.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
-import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
 import routes from "routes.js";
 
@@ -92,8 +91,15 @@ class Dashboard extends React.Component {
     const { classes, ...rest } = this.props;
 
     var adminRoutes;
+
+    var adminRoutesNav;
     if(routes != undefined) {
-      adminRoutes = routes.filter(route => route.layout == "/admin");
+      adminRoutes = routes.filter(function(route){
+        return route.layout == "/admin" && route.nShow != true;
+      });
+      adminRoutesNav = routes.filter(function (route) {
+        return route.layout == "/admin";
+      });
     } else {
       console.log("undefined routes: admin");
     }
@@ -102,7 +108,7 @@ class Dashboard extends React.Component {
       <div className={classes.wrapper}>
         <Sidebar
           routes={adminRoutes}
-          logoText={"Creative Tim"}
+          logoText={"Excursions"}
           logo={logo}
           image={this.state.image}
           handleDrawerToggle={this.handleDrawerToggle}
@@ -112,7 +118,7 @@ class Dashboard extends React.Component {
         />
         <div className={classes.mainPanel} ref="mainPanel">
           <Navbar
-            routes={adminRoutes}
+            routes={adminRoutesNav}
             handleDrawerToggle={this.handleDrawerToggle}
             {...rest}
           />
@@ -125,14 +131,6 @@ class Dashboard extends React.Component {
             <div className={classes.map}>{switchRoutes}</div>
           )}
           {this.getRoute() ? <Footer /> : null}
-          <FixedPlugin
-            handleImageClick={this.handleImageClick}
-            handleColorClick={this.handleColorClick}
-            bgColor={this.state["color"]}
-            bgImage={this.state["image"]}
-            handleFixedClick={this.handleFixedClick}
-            fixedClasses={this.state.fixedClasses}
-          />
         </div>
       </div>
     );

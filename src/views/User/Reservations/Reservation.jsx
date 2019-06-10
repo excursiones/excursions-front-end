@@ -1,6 +1,5 @@
 import React from "react";
-import axios from 'axios';
-import $ from 'jquery'
+import Http from "services/RestService.jsx";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -10,6 +9,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import Muted from "components/Typography/Muted.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
+import ExcursionReserv from 'views/User/Reservations/ExcursionReserv.jsx';
 
 import {
   cardTitle,
@@ -23,28 +23,46 @@ const styles = {
   cardLink
 };
 
-class CardTitlesTextLinks extends React.Component {
+class Reservation extends React.Component {
 
   constructor() {
     super();
     this.state = {      
-      cancelled: false           
+      cancelled: false,
+      excursions: []           
     };
   } 
 
-  cancelar = (e) =>{      
-/*     axios.put(`192.168.99.101:5000/reservations/${this.props.id}`, { cancelled: true })
-    .then((response) => {
-      console.log(response)  
-      this.setState({cancelled: true});           
-    })
-    .catch(function (error) {
-        console.log(error);
-    });  */
-  }
-  detalle = (e) =>{      
-    
-  }
+  componentDidMount (){
+      Http.get(
+        "",
+        {
+          query:
+          "query { excursionById(id:" + this.props.id_excursion + ") {id name location description price }}"          
+        },
+        false,
+        true
+      ).then((response) => {
+        console.log(response)
+        const excursions = response.data.excursionById;
+        this.setState({ excursions:excursions });      
+      });
+    }
+
+  cancelar = () =>{ 
+    Http.post(
+      "",
+      {
+        query:
+        "mutation { updateReservation(id:"+ this.props.id +",reservation:{ User_id:" + this.props.user_id + " Excursion_id:"+ this.props.id_excursion +" Type_id:" + this.props.id_type + " Cancelled: true }){Id Cancelled}}",
+      },
+      false,
+      true
+    ).then(() => {
+      this.setState({ cancelled: true });
+    });
+ 
+  } 
 
 
   render() {
@@ -62,16 +80,26 @@ class CardTitlesTextLinks extends React.Component {
               <h6 className={classes.cardSubtitle}>Cancelada</h6>
               :null}                      
           </Muted>
-          <p>         
-
+          <p> 
           </p>          
         </CardBody>
         <Button color="info" id="btnCancelar" onClick={this.cancelar}>Cancelar</Button>
-        <Button color="info" id="btnDetalle" onClick={this.detalle}>Detalle</Button> 
+        {this.state.excursions.map((excursion) => {
+              return <ExcursionReserv 
+              key = {excursion.id}
+              id = {excursion.id}
+              title = {excursion.name}
+              city = {excursion.location}
+              description = {excursion.description}
+              price = {excursion.price}
+              duration = {excursion.duration}
+              state = {excursion.state}
+              />
+            })} 
       </Card>
       </GridItem>
     );
   }
 }
 
-export default withStyles(styles)(CardTitlesTextLinks);
+export default withStyles(styles)(Reservation);

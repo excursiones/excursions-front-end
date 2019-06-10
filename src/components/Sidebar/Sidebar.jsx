@@ -13,6 +13,7 @@ import Icon from "@material-ui/core/Icon";
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.jsx";
 import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.jsx";
+import WeatherCard from "components/WeatherCard/WeatherCard.jsx";
 
 import sidebarStyle from "assets/jss/material-dashboard-react/components/sidebarStyle.jsx";
 
@@ -21,9 +22,11 @@ const Sidebar = ({ ...props }) => {
   function activeRoute(routeName) {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
-  const { classes, color, logo, image, logoText, routes } = props;
+  const { classes, color, logo, image, logoText, routes, withWeather } = props;
   var links = (
     <List className={classes.list}>
+      {withWeather ? <WeatherCard /> : null}
+
       {routes.map((prop, key) => {
         var activePro = " ";
         var listItemClasses;
@@ -64,9 +67,7 @@ const Sidebar = ({ ...props }) => {
                 />
               )}
               <ListItemText
-                primary={
-                  props.rtlActive ? prop.rtlName : prop.name
-                }
+                primary={props.rtlActive ? prop.rtlName : prop.name}
                 className={classNames(classes.itemText, whiteFontClasses, {
                   [classes.itemTextRTL]: props.rtlActive
                 })}
@@ -81,7 +82,7 @@ const Sidebar = ({ ...props }) => {
   var brand = (
     <div className={classes.logo}>
       <a
-        href="https://www.creative-tim.com"
+        href="#"
         className={classNames(classes.logoLink, {
           [classes.logoLinkRTL]: props.rtlActive
         })}

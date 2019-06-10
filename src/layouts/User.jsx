@@ -101,8 +101,14 @@ const switchRoutes = (
             const { classes, ...rest } = this.props;
             
             var userRoutes;
+            var userRoutesHead;
             if(routes != undefined) {
-                userRoutes = routes.filter(route => route.layout == "/user");
+                userRoutes = routes.filter(function (route) {
+                    return route.layout == "/user" && route.nShow != true;
+                });
+                userRoutesHead = routes.filter(function (route) {
+                    return route.layout == "/user";
+                });
             } else {
                 console.log("Undefined");
             }
@@ -110,6 +116,7 @@ const switchRoutes = (
             return (
                 <div className={classes.wrapper}>
                 <Sidebar
+                withWeather={true}
                 routes={userRoutes}
                 logoText={"Excursions"}
                 logo={logo}
@@ -122,7 +129,7 @@ const switchRoutes = (
                 
                 <div className={classes.mainPanel} ref="mainPanel">
                 <Navbar
-                routes={userRoutes}
+                routes={userRoutesHead}
                 handleDrawerToggle={this.handleDrawerToggle}
                 {...rest}
                 />
@@ -139,15 +146,6 @@ const switchRoutes = (
                     }
                     
                     {this.getRoute() ? <Footer /> : null}
-                    
-                    <FixedPlugin
-                    handleImageClick={this.handleImageClick}
-                    handleColorClick={this.handleColorClick}
-                    bgColor={this.state["color"]}
-                    bgImage={this.state["image"]}
-                    handleFixedClick={this.handleFixedClick}
-                    fixedClasses={this.state.fixedClasses}
-                    />
                     </div>
                     </div>
                     );
