@@ -3,42 +3,7 @@ import GridContainer from "../../../components/Grid/GridContainer";
 import Field from "../ShowInfo/Field"
 import SaveButton from "../ShowInfo/SaveButton";
 import HTTP from "../../../services/RestService"
-
-const fields = [
-    {
-        labelText: "Name",
-        id: "name",
-
-    },
-    {
-        labelText: "Price",
-        id: "price"
-    },
-    {
-        labelText: "Country",
-        id: "country"
-    },
-    {
-        labelText: "City",
-        id: "city"
-    },
-    {
-        labelText: "Description",
-        id: "description"
-    },
-    {
-        labelText: "Duration",
-        id: "duration"
-    },
-    {
-        labelText: "Capacity",
-        id: "capacity"
-    },
-    {
-        labelText: "Allie Id",
-        id: "allie-id"
-    }
-]
+import { ExcursionFields } from "./ExcursionsPackagesFields";
 
 export default class AddExcursion extends React.Component {
 
@@ -57,14 +22,33 @@ export default class AddExcursion extends React.Component {
 
     onSave = () => {
         console.log(this.data);
+        HTTP.post("", {
+            query: `
+                mutation {
+                    createExcursion(excursion: {
+                        name: "${this.data["name"]}",
+                        price: ${this.data["price"]},
+                        location: "${this.data["location"]}",
+                        description: "${this.data["description"]}",
+                        photo_path: "${this.data["photo_path"]}",
+                        duration: ${this.data["duration"]}
+                    }){
+                        id
+                    }
+                }
+            `
+        }).then(
+            alert("Excursion Created")
+        ).catch(err => console.error(err)
+        )
     }
 
     render() {
         return (
             <div>
                 <GridContainer>
-                    {fields.map((field, index) => (
-                        <Field key={index}
+                    {ExcursionFields.fields.map((field, index) => (
+                        ("id" !== field.id) && <Field key={index}
                             labelText={field.labelText}
                             id={field.id}
                             formControlProps={{

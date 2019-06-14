@@ -4,29 +4,7 @@ import AlliesPresentation from "./AlliesPresentation";
 
 import HTTP from "../../../services/RestService";
 
-const fields = [
-    {
-        labelText: "Id",
-        id: "id",
-
-    },
-    {
-        labelText: "Business Name",
-        id: "name"
-    },
-    {
-        labelText: "Phone",
-        id: "phone"
-    },
-    {
-        labelText: "Email",
-        id: "email"
-    },
-    {
-        labelText: "Location",
-        id: "location"
-    }
-]
+import { AlliesFields, DebtsFields } from './AlliesFields';
 
 export default class ShowAllAllies extends React.Component {
 
@@ -43,16 +21,67 @@ export default class ShowAllAllies extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.getAllies();
+    }
+
     getAllies = () => {
-        // GET request para obtener todos las Empresas
+        HTTP.post("", {
+            query: `
+            query{
+                allSuppliers{
+                    id
+                  Codigo
+                  Nit
+                  Razon
+                  Telefono
+                  Correo
+                  Ubicacion
+                }
+              }
+            `
+        }).then(res => {
+            const { data } = this.state;
+            const { allSuppliers } = res.data.data;
+            let keys = [];
+            allSuppliers.map((supplier => {
+                keys = Object.keys(supplier);
+                const supplierAux = {};
+                keys.forEach(key => {
+                    supplierAux[AlliesFields.parseToView[key]] = supplier[key];
+                });
+                data.push(supplierAux);
+            }))
+            this.setState({
+                data: data
+            })
+
+            // Parse the fields
+
+        }).catch(err => {
+            console.error(err);
+
+        })
+    }
+
+    deleteAllie = (id) => {
+        //DELETE request 
     }
 
     render() {
         return (
             <div>
                 {
-                    this.state.data.map((data) => (
-                        < AlliesPresentation data={data} fields={fields} />
+                    this.state.data.map((data, index) => (
+                        < AlliesPresentation
+                            key={index}
+                            data={data}
+                            fields={AlliesFields.fields}
+                            debtFields={DebtsFields.debtFields}
+                            onDelete={this.deleteAllie}
+                            readOnlyFields={AlliesFields.readOnlyFields}
+                            id={index}
+                        />
                     ))
                 }
             </div>

@@ -13,7 +13,7 @@ const SaveButton = ({ ...props }) => {
                 <GridItem md={10} />
                 <GridItem sm={12} xs={12} md={2}>
                     <Button color="primary" size="sm" round onClick={props.onSave} >
-                        <SaveIcon /> Save
+                        <SaveIcon /> {props.label || "Save"}
                     </Button>
                 </GridItem>
             </GridContainer>

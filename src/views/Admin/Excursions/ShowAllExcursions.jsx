@@ -71,10 +71,28 @@ export default class ShowAllExcursions extends React.Component {
                 "allie-id": 123456789
             }]
         }
+
+    }
+
+    componentDidMount() {
+        this.getAllies();
     }
 
     getAllies = () => {
         // GET request para obtener todos las Empresas
+        HTTP.post("", {
+            query: `
+              query {
+                allSupliers {
+                  name
+                }
+              }
+            `
+        }).then(res=>{
+            console.log(res);
+        }).catch(err=> {
+            console.error(err);
+        })
     }
 
     deleteExcursion = (index) => {
