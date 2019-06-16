@@ -31,17 +31,17 @@ class Reservations extends React.Component {
   }  
 
   componentDidMount (){
-    Http.get(
+    Http.post(
       "",
       {
         query:
-        'query { reservationsByUserId(User_id: "1"){Excursion_id Type_id Cancelled Created_at}}'
+        'query { reservationsByUserId(User_id: "1"){id_excursion id_type cancelled created_at}}'
       },
       false,
       true
     ).then((response) => {
       console.log(response)
-      const reservations = response.data.reservationsByUserId;
+      const reservations = response.data.data.reservationsByUserId;
       this.setState({reservations});      
     });
 

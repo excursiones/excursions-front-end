@@ -34,7 +34,7 @@ class Reservation extends React.Component {
   } 
 
   componentDidMount (){
-      Http.get(
+      Http.post(
         "",
         {
           query:
@@ -54,8 +54,8 @@ class Reservation extends React.Component {
       "",
       {
         query:
-        "mutation { updateReservation(id:"+ this.props.id +",reservation:{ User_id:" + this.props.user_id + " Excursion_id:"+ this.props.id_excursion +" Type_id:" + this.props.id_type + " Cancelled: true }){Id Cancelled}}",
-      },
+        "mutation { updateReservation(id:"+ this.props.id + ", reservation:{ cancelled: true }){id cancelled}}",
+      }, 
       false,
       true
     ).then(() => {

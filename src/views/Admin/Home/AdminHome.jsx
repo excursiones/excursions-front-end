@@ -48,7 +48,7 @@ class AdminHome extends React.Component {
   } 
   
   componentDidMount (){
-    Http.get(
+    Http.post(
       "",
       {
         query:
