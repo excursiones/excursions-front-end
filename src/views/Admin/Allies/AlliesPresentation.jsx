@@ -47,7 +47,6 @@ class AlliesPresentation extends React.Component {
                         this.account[DebtsFields.parseToView[key]] = supplierAccount[key];
                     }
                 }
-                console.log(this.account);
                 this.setState({
                     accountField: (<AddDebt
                         key={"Account"}
@@ -92,7 +91,6 @@ class AlliesPresentation extends React.Component {
         const { name, value } = event.target;
 
         this.account[name] = value;
-        console.log(this.account);
 
     }
 
@@ -209,7 +207,6 @@ class AlliesPresentation extends React.Component {
                 </Button>
                         </GridItem>
                     </GridContainer>)}
-                    <SaveButton onSave={this.onSave} />
                 </ShowAndEditInfo>
 
             </div>

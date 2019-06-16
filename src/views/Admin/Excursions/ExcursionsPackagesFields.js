@@ -25,6 +25,11 @@ export const ExcursionFields = {
             labelText: "Duration (horas)",
             id: "duration",
             type: "number"
+        },
+        {
+            labelText: "Satate",
+            id: "state",
+            type: "number"
         }
     ],
 

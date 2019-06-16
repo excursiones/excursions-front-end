@@ -11,13 +11,7 @@ export default class ShowAllAllies extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [{
-                id: 1,
-                "name": "Business Name",
-                "phone": 1234567,
-                "email": "example@example.com",
-                "location": "Colombia"
-            }]
+            data: []
         }
     }
 

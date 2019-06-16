@@ -108,7 +108,7 @@ export default class ShowAndEditInfo extends React.Component {
                                 </GridItem>
                             </GridContainer>
                             {this.state.edit && (
-                                <SaveButton onSave={this.onSave} />
+                                <SaveButton onSave={this.onSave} label={this.props.saveButtonLabel || "save"} />
                             )}
                         </div>
                     </ExpansionPanelDetails>

@@ -14,7 +14,7 @@ export default class AddExcursion extends React.Component {
 
     onChange = (event) => {
         const { name, value } = event.target;
-        ((typeof this.data[name] === "string") ? (value.trim() != this.data[name].trim()) : true) && (this.data[name] = value);
+        ((typeof this.data[name] === "string") ? (value.trim() !== this.data[name].trim()) : true) && (this.data[name] = value);
         (name === "name") && this.setState({
             name: value
         })
@@ -37,9 +37,9 @@ export default class AddExcursion extends React.Component {
                     }
                 }
             `
-        }).then(
+        }).then(res => {
             alert("Excursion Created")
-        ).catch(err => console.error(err)
+        }).catch(err => console.error(err)
         )
     }
 
@@ -48,7 +48,7 @@ export default class AddExcursion extends React.Component {
             <div>
                 <GridContainer>
                     {ExcursionFields.fields.map((field, index) => (
-                        ("id" !== field.id) && <Field key={index}
+                        ("state" !== field.id) && ("id" !== field.id) && <Field key={index}
                             labelText={field.labelText}
                             id={field.id}
                             formControlProps={{
@@ -59,7 +59,7 @@ export default class AddExcursion extends React.Component {
                                 onChange: this.onChange,
                                 name: field.id,
                                 required: true,
-                                multiline: (field.id === "description")
+                                type: field.type
                             }}
                         />
                     ))}

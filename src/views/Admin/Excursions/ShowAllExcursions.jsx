@@ -3,47 +3,7 @@ import React from "react";
 import ExcursionDetails from "./ExcursionDetails";
 
 import HTTP from "../../../services/RestService";
-
-const fields = [
-    {
-        labelText: "Id",
-        id: "id",
-
-    },
-    {
-        labelText: "Name",
-        id: "name",
-
-    },
-    {
-        labelText: "Price",
-        id: "price"
-    },
-    {
-        labelText: "Country",
-        id: "country"
-    },
-    {
-        labelText: "City",
-        id: "city"
-    },
-    {
-        labelText: "Description",
-        id: "description"
-    },
-    {
-        labelText: "Duration",
-        id: "duration"
-    },
-    {
-        labelText: "Capacity",
-        id: "capacity"
-    },
-    {
-        labelText: "Allie Id",
-        id: "allie-id"
-    }
-]
+import { ExcursionFields } from "./ExcursionsPackagesFields";
 
 const readOnlyFields = {
     id: "id"
@@ -59,17 +19,7 @@ export default class ShowAllExcursions extends React.Component {
         super(props);
         this.state = {
             // Datos de Prueba
-            excursions: [{
-                id: 1,
-                "name": "Excursion Name 1",
-                "price": "$ 1000",
-                "country": "Colombia",
-                "city": "Cartagena",
-                description: "A description",
-                duration: "1 h",
-                capacity: "50 people",
-                "allie-id": 123456789
-            }]
+            excursions: []
         }
 
     }
@@ -83,30 +33,71 @@ export default class ShowAllExcursions extends React.Component {
         HTTP.post("", {
             query: `
               query {
-                allSupliers {
-                  name
+                allExcursions {
+                    id
+                    name
+                    price
+                    location
+                    description
+                    photo_path
+                    duration
+                    state
                 }
               }
             `
-        }).then(res=>{
-            console.log(res);
-        }).catch(err=> {
+        }).then(res => {
+            const { allExcursions } = res.data.data;
+            const excursions = this.state.excursions;
+            allExcursions.map(excursion => excursions.push(excursion));
+            this.setState({
+                excursions: excursions
+            })
+        }).catch(err => {
             console.error(err);
         })
     }
 
     deleteExcursion = (index) => {
-        console.log(index);
-
+        let excursion = this.state.excursions[index]
+        HTTP.post("", {
+            query: `
+                mutation {
+                    deleteExcursion(id: ${excursion.id})
+                }
+            `
+        }).then(res => {
+            res && alert("Excursion has been deleted successfully!");
+        })
+        excursion = this.state.excursions;
+        delete excursion[index];
+        this.setState({ excursions: excursion });
     }
 
     updateExcursion = (index, data) => {
-        const { excursions } = this.state;
-        excursions[index] = data;
-        this.setState({
-            excursions: excursions
+        const excursion = data;
+        excursion.photo_path = "";
+        HTTP.post("", {
+            query: `
+                mutation {
+                    updateExcursion (id: ${excursion.id}, excursion: {
+                        name: "${excursion["name"]}",
+                        price: ${excursion["price"]},
+                        location: "${excursion["location"]}",
+                        description: "${excursion["description"]}",
+                        photo_path: "",
+                        duration: ${excursion["duration"]},
+                        state: ${excursion["state"]}
+                    }){
+                        id
+                    }
+                }
+            `
+        }).then(res => {
+            res && res.data.data.updateExcursion.id && alert("Excursion has been updated succesfully!");
+        }).catch(err => {
+            console.error(err);
+
         })
-        console.log(this.state.excursions[index]);
 
     }
 
@@ -123,7 +114,7 @@ export default class ShowAllExcursions extends React.Component {
                             readOnlyFields={readOnlyFields}
                             key={"excursion" + index}
                             index={index}
-                            fields={fields} />
+                            fields={ExcursionFields.fields} />
                     ))
                 }
             </div>

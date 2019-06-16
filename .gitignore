@@ -28,3 +28,5 @@ yarn-error.log*
 **/Dockerfile
 **/docker-compose.yml
 **/.dockerignore
+
+start.sh
