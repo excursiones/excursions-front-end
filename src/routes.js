@@ -1,8 +1,16 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import TransactionsUser from "views/User/Transactions/Transactions.jsx";
+import Language from "@material-ui/icons/Language";
+import CardTravel from "@material-ui/icons/CardTravel";
+import Home from "@material-ui/icons/Home";
+import People from "@material-ui/icons/People";
+import Map from "@material-ui/icons/Map";
+import Payment from "@material-ui/icons/Payment";
 import HomePage from "views/User/Home/Home.jsx";
-
+import Reservations from "views/User/Reservations/Reservations.jsx";
+import AdminHome from "views/Admin/Home/AdminHome.jsx";
+import RTLPage from "views/RTLPage/RTLPage.jsx";
+import TransactionsUser from "views/User/Transactions/Transactions.jsx";
 import TransactionsCompanyAdd from "views/Admin/Transactions/Transactions_add_company.jsx";
 import TransactionsUserAdd from "views/Admin/Transactions/Transactions_add_user.jsx";
 import Transactions from "views/Admin/Transactions/Transactions.jsx";
@@ -35,7 +43,7 @@ const dashboardRoutes = [
     path: "/home",
     name: "Excursiones",
     rtlName: "Excursions",
-    icon: Dashboard,
+    icon: Map,
     component: HomePage,
     layout: "/user"
   },
@@ -43,7 +51,7 @@ const dashboardRoutes = [
     path: "/transactions",
     name: "Transacciones",
     rtlName: "Transactions",
-    icon: Dashboard,
+    icon: Payment,
     component: TransactionsUser,
     layout: "/user"
   },
@@ -57,10 +65,18 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
+    path: "/adminhome",
+    name: "AdminHome",
+    rtlName: "لوحة القيادة",
+    icon: Home,
+    component: AdminHome,
+    layout: "/admin"
+  },
+  {
     path: "/transactions",
     name: "Transactions",
     rtlName: "لوحة القيادة",
-    icon: Dashboard,
+    icon: Payment,
     component: Transactions,
     layout: "/admin"
   },
@@ -85,16 +101,32 @@ const dashboardRoutes = [
   {
     path: "/allies",
     name: "Allies",
-    icon: "",
+    icon: People,
     component: Allies,
     layout: "/admin"
   },
   {
     path: "/excursions",
     name: "Excursions",
-    icon: "",
+    icon: Map,
     component: Excursions,
     layout: "/admin"
+  },
+  {
+    path: "/rtl-page",
+    name: "RTL Support",
+    rtlName: "پشتیبانی از راست به چپ",
+    icon: Language,
+    component: RTLPage,
+    layout: "/rtl"
+  },
+  {
+    path: "/reservations",
+    name: "Reservations",
+    rtlName: "لوحة القيادة",
+    icon: CardTravel,
+    component: Reservations,
+    layout: "/user"
   }
 ];
 
