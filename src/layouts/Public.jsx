@@ -7,21 +7,17 @@ import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-// core components
-import Navbar from "components/Navbars/Navbar.jsx";
 import Footer from "components/Footer/Footer.jsx";
-import Sidebar from "components/Sidebar/Sidebar.jsx";
 
 import routes from "routes.js";
 
-import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
+import publicStyle from "assets/jss/material-dashboard-react/layouts/publicStyle.jsx";
 
 import image from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/reactlogo.png";
 
 const switchRoutes = (
     <Switch>{routes.map((prop, key) => {
-        if (prop.layout === "/user") {
+        if (prop.layout === "/public") {
             return (
                 <Route
                 path={prop.layout + prop.path}
@@ -34,7 +30,7 @@ const switchRoutes = (
     </Switch>
     );
     
-    class User extends React.Component {
+    class Public extends React.Component {
         constructor(props) {
             super(props);
             this.state = {
@@ -103,10 +99,10 @@ const switchRoutes = (
             var userRoutesHead;
             if(routes != undefined) {
                 userRoutes = routes.filter(function (route) {
-                    return route.layout == "/user" && route.nShow != true;
+                    return route.layout == "/public" && route.nShow != true;
                 });
                 userRoutesHead = routes.filter(function (route) {
-                    return route.layout == "/user";
+                    return route.layout == "/public";
                 });
             } else {
                 console.log("Undefined");
@@ -114,24 +110,9 @@ const switchRoutes = (
             
             return (
                 <div className={classes.wrapper}>
-                <Sidebar
-                withWeather={true}
-                routes={userRoutes}
-                logoText={"Excursions"}
-                logo={logo}
-                image={this.state.image}
-                handleDrawerToggle={this.handleDrawerToggle}
-                open={this.state.mobileOpen}
-                color={this.state.color}
-                {...rest}
-                />
                 
                 <div className={classes.mainPanel} ref="mainPanel">
-                <Navbar
-                routes={userRoutesHead}
-                handleDrawerToggle={this.handleDrawerToggle}
-                {...rest}
-                />
+                
                 {/* On the /maps route we want the map to be on full screen - this is not possible 
                     if the content and conatiner classes are present because they have some paddings 
                 which would make the map smaller */}
@@ -151,9 +132,9 @@ const switchRoutes = (
                 }
             }
             
-            User.propTypes = {
+            Public.propTypes = {
                 classes: PropTypes.object.isRequired
             };
             
-            export default withStyles(dashboardStyle)(User);
+            export default withStyles(publicStyle)(Public);
             
