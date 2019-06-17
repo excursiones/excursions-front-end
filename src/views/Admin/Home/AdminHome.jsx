@@ -52,14 +52,14 @@ class AdminHome extends React.Component {
       "",
       {
         query:
-        "query { totalDebts { Cuentas_por_pagar Intereses_por_pagar }}"
+        "query { totalDebts { Total_ctas_por_pagar Total_Int_por_pagar}}"
       },
       false,
       true
     ).then((response) => {
       console.log(response)
-      const debts = response.data.totalDebts;
-      this.setState({Cuentas_por_pagar: debts.Cuentas_por_pagar, Intereses_por_pagar: debts.Intereses_por_pagar });      
+      const debts = response.data.data.totalDebts;
+      this.setState({Cuentas_por_pagar: debts.Total_ctas_por_pagar, Intereses_por_pagar: debts.Total_Int_por_pagar });      
     });
 
   }   
