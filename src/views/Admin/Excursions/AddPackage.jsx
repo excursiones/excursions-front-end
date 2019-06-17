@@ -1,11 +1,11 @@
 import React from "react";
 import GridContainer from "../../../components/Grid/GridContainer";
-import GridItem from "../../../components/Grid/GridItem";
-import CustomInput from "../../../components/CustomInput/CustomInput";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "../../../components/CustomButtons/Button";
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from "@material-ui/icons/Delete";
+import Field from "../ShowInfo/Field";
+import ExcursionField from "./ExcursionField";
+import SaveButton from "../ShowInfo/SaveButton";
+import HTTP from '../../../services/RestService';
 
 const fields = [
     {
@@ -23,54 +23,13 @@ const fields = [
     }
 ]
 
-const AddExcursionToPackageFields = [
+const excursionFields = [
     {
         labelText: "Excursion Id",
         id: "excursion-id"
     }
 ]
 
-class DeleteExcursionField extends React.Component {
-
-    onClick = () => {
-        this.props.onClick(this.props.index);
-    }
-
-    render() {
-
-        return (
-            <IconButton onClick={this.onClick} >
-                <DeleteIcon />
-            </IconButton>
-        );
-    }
-}
-
-const AddExcursionToPackage = ({ ...props }) => {
-
-    return (
-        <GridContainer>
-            {AddExcursionToPackageFields.map((fields, index) => (
-                <GridItem xs={12} sm={12} md={4} key={index}>
-                    <CustomInput
-                        labelText={fields.labelText}
-                        id={fields.id}
-                        formControlProps={{
-                            fullWidth: true
-                        }}
-                        inputProps={{
-                            readOnly: false,
-                            defaultValue: "smthng"
-                        }}
-                    />
-                </GridItem>
-            ))}
-            <GridItem>
-                <DeleteExcursionField onClick={props.onClick} index={props.index} />
-            </GridItem>
-        </GridContainer>
-    );
-}
 
 export default class AddPackage extends React.Component {
 
@@ -78,60 +37,90 @@ export default class AddPackage extends React.Component {
         super(props);
         this.state = {
             excursions: {}
-        }
+        };
+        this.excursionsId = {}
+        this.data = {};
     }
 
     deleteExcursionField = (index) => {
         const excursions_aux = this.state.excursions;
         delete excursions_aux[index];
+        delete this.excursionsId[index];
         this.setState({
             excursions: excursions_aux
-        })
+        });
     }
 
     addExcursionHandler = () => {
         const excursions_aux = this.state.excursions;
         const keys = Object.keys(this.state.excursions);
         const index = keys.length === 0 ? 0 : keys[keys.length - 1] + 1;
-        excursions_aux[index] = <AddExcursionToPackage onClick={this.deleteExcursionField} index={index} />;
+        this.excursionsId[index] = "";
+        excursions_aux[index] = (
+            <ExcursionField
+                key={index}
+                fields={excursionFields}
+                onDelete={this.deleteExcursionField}
+                onChange={this.onExcursionFieldChange}
+                requiredFields={excursionFields}
+                index={index}
+            />
+        );
         this.setState({
             excursion: excursions_aux
         })
+    }
+    onExcursionFieldChange = (event, index) => {
+        const { value } = event.target;
+        (value !== this.excursionsId[index]) && (this.excursionsId[index] = value)
+    }
+
+    onChange = (event) => {
+        const { name, value } = event.target;
+        !this.data[name] && (this.data[name] = "");
+        if (this.data[name.trim() === ""]) return;
+        (this.data[name].trim() !== value) && (this.data[name] = value);
+    }
+
+    onSave = () => {
+        Object.assign(this.data, { excursions: Object.values(this.excursionsId) });
+
+        console.log(this.data);
+
     }
 
     render() {
         return (
             <div>
                 <GridContainer>
-                    {fields.map((fields, index) => (
-                        <GridItem xs={12} sm={12} md={4} key={index}>
-                            <CustomInput
-                                labelText={fields.labelText}
-                                id={fields.id}
-                                formControlProps={{
-                                    fullWidth: true
-                                }}
-                                inputProps={{
-                                    readOnly: false,
-                                    defaultValue: "smthng",
-                                    multiline: (fields.id === "description")
-                                }}
-                            />
-                        </GridItem>
+                    {fields.map((field, index) => (
+                        <Field
+                            key={index}
+                            labelText={field.labelText}
+                            id={field.id}
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                            inputProps={{
+                                onChange: this.onChange,
+                                readOnly: false,
+                                name: field.id
+                            }}
+                        />
                     ))}
                 </GridContainer>
                 {
                     Object.values(this.state.excursions).map((excursionField) =>
-
                         excursionField
                     )
                 }
                 <GridContainer>
-                    <Button round onClick={this.addExcursionHandler}>
+                    <Button round onClick={this.addExcursionHandler} color="primary">
                         <AddIcon />
                         Excusrsion
                     </Button>
                 </GridContainer>
+                <SaveButton onSave={this.onSave} />
             </div>
         )
     }

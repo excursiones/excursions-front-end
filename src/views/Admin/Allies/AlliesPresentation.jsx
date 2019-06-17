@@ -1,71 +1,16 @@
 import React from "react";
-import CustomInput from "../../../components/CustomInput/CustomInput";
-import Switch from '@material-ui/core/Switch';
-import GridContainer from "../../../components/Grid/GridContainer";
-import GridItem from "../../../components/Grid/GridItem";
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from "@material-ui/icons/Delete";
-import AddIcon from "@material-ui/icons/Add";
-import Button from "../../../components/CustomButtons/Button";
-
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import AddDebt from "./AddDebt";
-
+import ShowAndEditInfo from "../ShowInfo/ShowAndEditInfo";
+import { AlliesFields, DebtsFields } from "./AlliesFields";
 
 import HTTP from "../../../services/RestService";
+import GridItem from "../../../components/Grid/GridItem";
+import Button from "../../../components/CustomButtons/Button";
+import GridContainer from "../../../components/Grid/GridContainer";
+import SaveButton from "../ShowInfo/SaveButton";
+import AddIcon from "@material-ui/icons/Add";
 
-const DeleteAllie = ({ ...props }) => {
-
-    const onClick = () => {
-        props.onClick(props.id);
-    }
-
-    return (
-        <IconButton onClick={onClick} >
-            <DeleteIcon />
-        </IconButton>
-    );
-}
-
-const DebtField = ({ ...props }) => {
-    const {
-        onClick,
-        index
-    } = props;
-
-    return (
-        <GridContainer>
-            <GridItem md={10}>
-                <AddDebt key={"debt-" + (index + 1)} />
-            </GridItem>
-            <GridItem md={2}>
-                <DeleteDebtField onClick={onClick} index={index} />
-            </GridItem>
-        </GridContainer>
-    );
-
-}
-
-class DeleteDebtField extends React.Component {
-
-    onClick = () => {
-        this.props.onClick(this.props.index);
-    }
-
-    render() {
-
-        return (
-            <IconButton onClick={this.onClick} >
-                <DeleteIcon />
-            </IconButton>
-        );
-    }
-}
 
 class AlliesPresentation extends React.Component {
 
@@ -73,33 +18,91 @@ class AlliesPresentation extends React.Component {
         super(props);
         this.state = {
             edit: false,
-            addDebt: false,
+            accountField: null,
             name: ""
         }
-        this.debts = [];
+        this.account = {};
+        this.data = {};
+        Object.assign(this.data, this.props.data);
     }
 
     componentDidMount() {
-        this.setState((state, props) => ({
-            name: props.data["name"]
-        }))
-    }
+        HTTP.post("", {
+            query: `
+            query {
+                supplierAccount(id: ${this.data.id}) {
+                    id
+                    Cuentas_pagadas
+                    Cuentas_por_pagar
+                    Intereses_por_pagar
+                }
+              }
+            `
+        }).then(response => {
+            if (response.data.data) {
+                const { supplierAccount } = response.data.data;
+                this.account.id = supplierAccount.id;
+                for (const key in supplierAccount) {
+                    if (supplierAccount.hasOwnProperty(key)) {
+                        this.account[DebtsFields.parseToView[key]] = supplierAccount[key];
+                    }
+                }
+                this.setState({
+                    accountField: (<AddDebt
+                        key={"Account"}
+                        data={this.account}
+                        fields={this.props.debtFields}
+                        onDelete={this.deleteDebtField}
+                        onChange={this.onDebtFieldChange}
+                    />)
+                })
+            }
 
-    deleteDebtField = (index) => {
-        delete this.debts[index];
-        this.setState({
-            addDebt: true
+        }).catch(error => {
+            console.error(error);
         })
     }
 
-    addDebtClick = () => {
-        const keys = Object.keys(this.debts);
-        const index = keys.length === 0 ? 0 : keys[keys.length - 1] + 1;
-        this.debts[index] = (
-            <DebtField index={index} onClick={this.deleteDebtField} />
+    deleteDebtField = () => {
+        (this.account.id) && (
+
+            HTTP.post("", {
+                query: `
+                mutation {
+                    deleteAccount (id: ${this.account.id})
+                }
+                `
+            }).then(_ => {
+                alert("Account Deleted")
+            }).catch(err => {
+                console.error(err);
+            }
+            )
         );
+        this.account = {};
         this.setState({
-            addDebt: true
+            accountField: null
+        });
+
+    }
+
+    onDebtFieldChange = (index, event) => {
+        const { name, value } = event.target;
+
+        this.account[name] = value;
+
+    }
+
+    addDebtClick = () => {
+        const debtField = (
+            <AddDebt
+                key={"debt_field"}
+                fields={this.props.debtFields}
+                onDelete={this.deleteDebtField}
+                onChange={this.onDebtFieldChange}
+            />);
+        this.setState({
+            accountField: debtField
         });
     }
 
@@ -110,69 +113,100 @@ class AlliesPresentation extends React.Component {
     }
 
     deleteAllie = (id) => {
-        console.log(id);
+        HTTP.post("", {
+            query: `
+                mutation {
+                    deleteSupplier (id: ${this.data.id})
+                }
+            `
+        }).then(resp => {
+            alert("Allie Deleted")
+        }).catch(err => {
+            console.error(err);
+
+        })
+        this.props.onDelete(id)
+    }
+
+    onSave = (id, data) => {
+        const debt = this.account;
+        HTTP.post("", {
+            query: `
+                        mutation {
+                            ${debt.id ? "updateAccount" : "createAccount"} (${debt.id ? "id: " + debt.id + ", " : ""} account: {
+                                Cuentas_por_pagar: ${debt[DebtsFields.parseToView["Cuentas_por_pagar"]]},
+                                Cuentas_pagadas: ${debt[DebtsFields.parseToView["Cuentas_por_pagar"]]},
+                                Intereses_por_pagar: ${debt[DebtsFields.parseToView["Intereses_por_pagar"]]},
+                                supplier_id: ${this.data.id}
+                            }) {
+                                id
+                            }
+                        }
+                    `
+        }).then(res => {
+            res && alert("Account has been succesfully " + (debt.id ? "updated" : "created"));
+            this.account.id = res.data.data[debt.id ? "updateAccount" : "createAccount"].id;
+        }).catch(err => {
+            console.error(err);
+
+        });
+
+        Object.assign(this.data, data);
+        HTTP.post("", {
+            query: `
+            mutation {
+                updateSupplier (id: ${this.props.data.id}, supplier:{
+                    Codigo: ${this.data[AlliesFields.parseToView["Codigo"]]},
+                    Nit: ${this.data[AlliesFields.parseToView["Nit"]]},
+                    Razon: "${this.data[AlliesFields.parseToView["Razon"]]}",
+                    Telefono:"${this.data[AlliesFields.parseToView["Telefono"]]}",
+                    Correo: "${this.data[AlliesFields.parseToView["Correo"]]}",
+                    Ubicacion: "${this.data[AlliesFields.parseToView["Ubicacion"]]}"
+                  }) {
+                  id
+                  Codigo
+                  Nit
+                  Razon
+                  Telefono
+                  Correo
+                  Ubicacion
+                }
+              }
+            `
+        }).then(res => {
+            res && alert("Allie has been successfully updated");
+        }).catch(err => {
+            console.error(err);
+        })
 
     }
 
     render() {
         return (
             <div>
-                <ExpansionPanel>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography>
-                            {this.state.name}
-                        </Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        <div>
-                            <GridContainer>
-                                <GridItem xs={6} sm={6} md={2}>
-                                    Edit <Switch onChange={this.editSwitch} />
-                                </GridItem>
-                                <GridItem xs={false} sm={false} md={8} />
-                                <GridItem xs={6} sm={6} md={2}>
-                                    {
-                                        this.state.edit ? (
-                                            <DeleteAllie onClick={this.deleteAllie} id={123} />
-                                        ) : (
-                                                null
-                                            )
-                                    }
-                                </GridItem>
-                            </GridContainer>
-                            <GridContainer>
-                                {this.props.fields.map((field, index) => (
-                                    <GridItem xs={12} sm={12} md={4} key={index}>
-                                        <CustomInput
-                                            labelText={field.labelText}
-                                            id={field.id}
-                                            formControlProps={{
-                                                fullWidth: true
-                                            }}
-                                            inputProps={{
-                                                readOnly: field.id === "id" ? true : !this.state.edit,
-                                                defaultValue: this.props.data[field.id]
-                                            }}
-                                        />
-                                    </GridItem>
-                                ))}
-                                {
-                                    Object.values(this.debts).map((add_debt) =>
-                                        add_debt
-                                    )
-                                }
-                            </GridContainer>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={12} >
-                                    <Button round onClick={this.addDebtClick}>
-                                        <AddIcon />
-                                        Debt
-                                    </Button>
-                                </GridItem>
-                            </GridContainer>
-                        </div>
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
+                <ShowAndEditInfo
+                    data={this.props.data}
+                    id={this.props.id}
+                    fields={this.props.fields}
+                    readOnlyFields={this.props.readOnlyFields}
+                    onDelete={this.deleteAllie}
+                    requiredFields={this.props.requiredFields}
+                    onSave={this.onSave}
+                >
+                    {
+                        this.state.accountField
+                    }
+
+                    {(!this.state.accountField) && (<GridContainer>
+                        <GridItem xs={12} sm={12} md={12} >
+                            <Button round onClick={this.addDebtClick} color="primary">
+                                <AddIcon />
+                                Debt
+                </Button>
+                        </GridItem>
+                    </GridContainer>)}
+                </ShowAndEditInfo>
+
             </div>
         );
     }
