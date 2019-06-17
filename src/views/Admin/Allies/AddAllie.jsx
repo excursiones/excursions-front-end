@@ -65,8 +65,6 @@ class AddAllie extends React.Component {
 
     onChange = (event) => {
         const { name, value } = event.target;
-        console.log(typeof value);
-
         ((typeof this.data[name] === "string") ? (value.trim() != this.data[name].trim()) : true) && (this.data[name] = value);
     }
 
@@ -77,20 +75,13 @@ class AddAllie extends React.Component {
         AlliesFields.fields.forEach(field => {
             (!empty) && (field.id != "id") && (empty = !this.data[field.id]) && (this.setState({ emptyField: empty }));
         });
-
-        console.log(this.data, this.account);
         if (empty) return; // TODO: Lanzar un dialogo diciendo que no puede estar vacio 
 
         // Hace la traducción de los id de cada campo.
         const keys = Object.keys(AlliesFields.parseToView), data = {};
-        console.log(keys);
-
         keys.forEach(key => {
             data[key] = this.data[AlliesFields.parseToView[key]];
         });
-
-        console.log(data);
-
 
         // Petición para Actualizar.
         HTTP.post("", {
@@ -125,8 +116,7 @@ class AddAllie extends React.Component {
                     }
                 `
                 }).then(response => {
-                    console.log(response);
-
+                    response && alert("Account has been Created successfully");
                 }).catch(error => {
                     console.error(error);
                 })
