@@ -1,6 +1,5 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import Language from "@material-ui/icons/Language";
 import CardTravel from "@material-ui/icons/CardTravel";
 import Home from "@material-ui/icons/Home";
 import People from "@material-ui/icons/People";
@@ -9,7 +8,6 @@ import Payment from "@material-ui/icons/Payment";
 import HomePage from "views/User/Home/Home.jsx";
 import Reservations from "views/User/Reservations/Reservations.jsx";
 import AdminHome from "views/Admin/Home/AdminHome.jsx";
-import RTLPage from "views/RTLPage/RTLPage.jsx";
 import TransactionsUser from "views/User/Transactions/Transactions.jsx";
 import TransactionsCompanyAdd from "views/Admin/Transactions/Transactions_add_company.jsx";
 import TransactionsUserAdd from "views/Admin/Transactions/Transactions_add_user.jsx";
@@ -45,14 +43,6 @@ const dashboardRoutes = [
     rtlName: "Excursions",
     icon: Map,
     component: HomePage,
-    layout: "/user"
-  },
-  {
-    path: "/transactions",
-    name: "Transacciones",
-    rtlName: "Transactions",
-    icon: Payment,
-    component: TransactionsUser,
     layout: "/user"
   },
   // Admin
@@ -106,6 +96,14 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
+    path: "/transactions",
+    name: "Transactions",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: TransactionsUser,
+    layout: "/user"
+  },
+  {
     path: "/excursions",
     name: "Excursions",
     icon: Map,
@@ -113,12 +111,11 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/rtl-page",
-    name: "RTL Support",
-    rtlName: "پشتیبانی از راست به چپ",
-    icon: Language,
-    component: RTLPage,
-    layout: "/rtl"
+    path: "/allies",
+    name: "Allies",
+    icon: Dashboard,
+    component: Allies,
+    layout: "/admin"
   },
   {
     path: "/reservations",
