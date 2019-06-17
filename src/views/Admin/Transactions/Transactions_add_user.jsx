@@ -49,7 +49,7 @@ import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardS
 
 class TransactionsUserAdd extends React.Component {
   state = {
-    user: "",
+    user: 21,
     price: "",
     or_account: "",
     fn_account: ""
@@ -84,7 +84,7 @@ class TransactionsUserAdd extends React.Component {
       body: JSON.stringify({
         query: query
       })
-    }).then((window.location.href = "http://	3.130.38.143:3000/user/transactions"));
+    }).then((window.location.href = "http://localhost:3000/user/transactions"));
   };
   handleChangeSp = (ent, val) => {
     this.setState({ [ent]: val.target.value });

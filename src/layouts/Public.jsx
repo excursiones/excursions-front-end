@@ -8,11 +8,9 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Footer from "components/Footer/Footer.jsx";
-
+import NotFound from "views/public/NotFound.jsx";
 import routes from "routes.js";
-
 import publicStyle from "assets/jss/material-dashboard-react/layouts/publicStyle.jsx";
-
 import image from "assets/img/sidebar-2.jpg";
 
 const switchRoutes = (
@@ -27,6 +25,7 @@ const switchRoutes = (
             }
         })
     }
+    <Route path="*" exact={true} component={NotFound} />
     </Switch>
     );
     

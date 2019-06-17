@@ -57,7 +57,7 @@ const dashboardRoutes = [
   },
   // Admin
   {
-    path: "/home",
+    path: "/user",
     name: "User View!",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
@@ -65,7 +65,7 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/adminhome",
+    path: "/home",
     name: "AdminHome",
     rtlName: "لوحة القيادة",
     icon: Home,

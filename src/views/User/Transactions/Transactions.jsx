@@ -16,6 +16,7 @@ import { NavLink } from "react-router-dom";
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 class TransactionsUser extends React.Component {
+  userId = 21;
   state = {
     value: 0,
     transactions_users: []
@@ -53,9 +54,11 @@ class TransactionsUser extends React.Component {
         ) {
           for (var i = 0; i < res.data.allUserPayments.length; i++) {
             var data = Array.from(Object.values(res.data.allUserPayments[i]));
+            if(data[1] == this.userId) {
             this.setState(prevState => ({
               transactions_users: [...prevState.transactions_users, data]
             }));
+          }
           }
         }
       });
