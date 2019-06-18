@@ -10,6 +10,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import ExcursionItem from "components/Excursions/ExcursionItem.jsx";
 
 import Http from "../../../services/RestService.jsx";
+import auth from "../../../services/AuthService.jsx";
 
 const styles = {
   cardCategoryWhite: {
@@ -52,7 +53,8 @@ class HomePage extends React.Component {
       bc: false,
       br: false,
       excursions: [],
-      reservations: []
+      reservations: [],
+      user_id: auth.getUserId()
     };
 
     Http.post(
@@ -75,15 +77,14 @@ class HomePage extends React.Component {
       this.setState({ excursions: res["data"]["data"]["allExcursions"] || [] });
       Http.post(
         "",
-        { query: "query { allReservations { id id_user id_type cancelled } }" },
+        { query: `query { allReservations { id id_user id_type cancelled } }`},
         false,
         true
       ).then(res => {
         if (res["data"]["data"] == null) return;
 
         res["data"]["data"]["allReservations"].forEach(item => {
-          if (item["id_user"] == 1) {
-
+          if (item["id_user"] == this.state.user_id) {
             this.setState(prevState => ({
               reservations: [...prevState.reservations, item]
             }));
@@ -100,6 +101,7 @@ class HomePage extends React.Component {
       window.clearTimeout(id);
     }
   }
+
   showNotification(place) {
     var x = [];
     x[place] = true;
@@ -112,6 +114,7 @@ class HomePage extends React.Component {
       6000
     );
   }
+
   render() {
     const { classes } = this.props;
     return (
@@ -159,36 +162,7 @@ HomePage.propTypes = {
 };
 
 HomePage.defaultProps = {
-  excursions: [
-    {
-      title: "Muralla de Cartagena",
-      city: "Cartagena, CO",
-      description: "Espectacular muralla",
-      coordinates: { lat: 10.39972, lng: -75.51444 },
-      price: "$150 USD"
-    },
-    {
-      title: "Piscilago",
-      city: "Melgar, CO",
-      description: "Espectacular parque",
-      coordinates: { lat: 10.39972, lng: -75.51444 },
-      price: "$150 USD"
-    },
-    {
-      title: "Monserrate",
-      city: "Bogotá, CO",
-      description: "Espectacular iglesia",
-      coordinates: { lat: 10.39972, lng: -75.51444 },
-      price: "$150 USD"
-    },
-    {
-      title: "La Piscina",
-      city: "Bogotá, CO",
-      description: "Espectacular piscina",
-      coordinates: { lat: 10.39972, lng: -75.51444 },
-      price: "$150 USD"
-    }
-  ]
+  excursions: []
 };
 
 export default withStyles(styles)(HomePage);

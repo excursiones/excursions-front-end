@@ -39,18 +39,20 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
+import Http from "../../../services/RestService.jsx";
 
 import {
   dailySalesChart,
   emailsSubscriptionChart,
   completedTasksChart
 } from "variables/charts.jsx";
+import auth from "../../../services/AuthService.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 class TransactionsUserAdd extends React.Component {
   state = {
-    user: 21,
+    user: auth.getUserId(),
     price: "",
     or_account: "",
     fn_account: ""
@@ -79,16 +81,17 @@ class TransactionsUserAdd extends React.Component {
                     id
                   }
                 }`;
-    fetch(`http://3.130.38.243:5000/graphql`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+
+    Http.post(
+      "",
+      {
         query: query
-      })
-    }).then( res => {
+      },
+      true,
+      true
+    ).then(res => {
       this.props.history.push("/user/transactions");
-    }
-    );
+    });
   };
   handleChangeSp = (ent, val) => {
     this.setState({ [ent]: val.target.value });
@@ -105,22 +108,6 @@ class TransactionsUserAdd extends React.Component {
                 <h4 className={classes.cardTitleWhite}>Add transaction</h4>
               </CardHeader>
               <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} md={6} sm={12}>
-                    <CustomInput
-                      labelText="User ID"
-                      id="company"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      value={this.state.company}
-                      inputProps={{
-                        onChange: (e, value) => this.handleChangeSp("user", e),
-                        type: "number"
-                      }}
-                    />
-                  </GridItem>
-                </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} md={6} sm={12}>
                     <CustomInput

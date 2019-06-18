@@ -1,8 +1,7 @@
 import React from "react";
 import Http from "services/RestService.jsx";
 import Reservation from "views/User/Reservations/Reservation.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import Card from "components/Card/Card.jsx";
+import auth from "../../../services/AuthService.jsx";
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle";
 import withStyles from "@material-ui/core/styles/withStyles";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -25,7 +24,7 @@ class Reservations extends React.Component {
     super();
     this.state = {
       reservations: [],
-      user_id: localStorage.getItem("user_id") || 21
+      user_id: auth.getUserId()
     };
   }
 

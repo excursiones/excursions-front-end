@@ -12,11 +12,13 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import { NavLink } from "react-router-dom";
+import auth from "../../../services/AuthService.jsx";
+import Http from "../../../services/RestService.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 class TransactionsUser extends React.Component {
-  userId = 21;
+  userId = auth.getUserId();
   state = {
     value: 0,
     transactions_users: []
@@ -30,38 +32,35 @@ class TransactionsUser extends React.Component {
   };
 
   componentDidMount() {
-    fetch(`http://3.130.38.243:5000/graphql`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    Http.post(
+      "",
+      {
         query: `query{
-  allUserPayments {
-    id
-    user_id
-    price
-    date
-    origin_account
-    destination_account
-  }
-}`
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (
-          res["data"] != undefined &&
-          res["data"]["allUserPayments"] != null
-        ) {
-          for (var i = 0; i < res.data.allUserPayments.length; i++) {
-            var data = Array.from(Object.values(res.data.allUserPayments[i]));
-            if (data[1] == this.userId) {
-              this.setState(prevState => ({
-                transactions_users: [...prevState.transactions_users, data]
-              }));
+            allUserPayments {
+              id
+              user_id
+              price
+              date
+              origin_account
+              destination_account
             }
+          }`
+      },
+      false,
+      true
+    ).then(res => {
+      res = res["data"];
+      if (res["data"] != undefined && res["data"]["allUserPayments"] != null) {
+        for (var i = 0; i < res.data.allUserPayments.length; i++) {
+          var data = Array.from(Object.values(res.data.allUserPayments[i]));
+          if (data[1] == this.userId) {
+            this.setState(prevState => ({
+              transactions_users: [...prevState.transactions_users, data]
+            }));
           }
         }
-      });
+      }
+    });
   }
 
   render() {

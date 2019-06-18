@@ -54,7 +54,12 @@ export default {
     return this.getPayload()["type"].length == 1;
   },
 
+  getUserId() {
+    return this.getPayload()["id"][0];
+  },
+
   getPayload() {
+    console.log(this.parseJwt(jwt));
     return this.parseJwt(jwt);
   },
 

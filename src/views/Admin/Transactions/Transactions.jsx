@@ -31,6 +31,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import { NavLink } from "react-router-dom";
+import Http from "../../../services/RestService.jsx";
 
 import {
   dailySalesChart,
@@ -39,7 +40,6 @@ import {
 } from "variables/charts.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
-import Http from "services/RestService.jsx";
 
 require("isomorphic-fetch");
 
@@ -51,57 +51,57 @@ class Transactions extends React.Component {
   };
 
   componentDidMount() {
-    fetch(`http://3.130.38.243:5000/graphql`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    Http.post(
+      "",
+      {
         query: `query{
-  allCompanyPayments {
-    id
-    company_id
-    price
-    date
-    origin_account
-    destination_account
-  }
+allCompanyPayments {
+  id
+  company_id
+  price
+  date
+  origin_account
+  destination_account
+}
 }`
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        for (var i = 0; i < res.data.allCompanyPayments.length; i++) {
-          var data = Array.from(Object.values(res.data.allCompanyPayments[i]));
-          this.setState(prevState => ({
-            transactions_companies: [...prevState.transactions_companies, data]
-          }));
-        }
-      });
+      },
+      true,
+      false
+    ).then(res => {
+      res = res["data"];
+      for (var i = 0; i < res.data.allCompanyPayments.length; i++) {
+        var data = Array.from(Object.values(res.data.allCompanyPayments[i]));
+        this.setState(prevState => ({
+          transactions_companies: [...prevState.transactions_companies, data]
+        }));
+      }
+    });
 
-    fetch(`http://3.130.38.243:5000/graphql`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    Http.post(
+      "",
+      {
         query: `query{
-  allUserPayments {
-    id
-    user_id
-    price
-    date
-    origin_account
-    destination_account
-  }
+allUserPayments {
+  id
+  user_id
+  price
+  date
+  origin_account
+  destination_account
+}
 }`
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        for (var i = 0; i < res.data.allUserPayments.length; i++) {
-          var data = Array.from(Object.values(res.data.allUserPayments[i]));
-          this.setState(prevState => ({
-            transactions_users: [...prevState.transactions_users, data]
-          }));
-        }
-      });
+      },
+      true,
+      true
+    ).then(res => {
+      res = res["data"];
+      for (var i = 0; i < res.data.allUserPayments.length; i++) {
+        var data = Array.from(Object.values(res.data.allUserPayments[i]));
+        this.setState(prevState => ({
+          transactions_users: [...prevState.transactions_users, data]
+        }));
+      }
+    });
   }
 
   handleChange = (event, value) => {

@@ -31,13 +31,16 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import { bugs, website, server } from "variables/general.jsx";
 import Button from "components/CustomButtons/Button.jsx";
+import CustomInput from "components/CustomInput/CustomInput.jsx";
 import { NavLink } from "react-router-dom";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
+import auth from "../../../services/AuthService.jsx";
+import Http from "../../../services/RestService.jsx";
+import { withRouter } from "react-router-dom";
 
 import {
   dailySalesChart,
@@ -81,14 +84,9 @@ class TransactionsCompanyAdd extends React.Component {
                     id
                   }
                 }`;
-    fetch(`http://3.130.38.243:5000/graphql`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: query
-      })
-    }).then(
-      (window.location.href = "http://3.130.38.143:3000/admin/transactions")
+
+    Http.post("", { query: query }, true, true).then( () =>
+      this.props.window.push("/admin/transactions")
     );
   };
 
@@ -184,4 +182,4 @@ TransactionsCompanyAdd.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(TransactionsCompanyAdd);
+export default withRouter(withStyles(dashboardStyle)(TransactionsCompanyAdd));

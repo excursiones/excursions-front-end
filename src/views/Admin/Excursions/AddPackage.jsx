@@ -74,7 +74,7 @@ export default class AddPackage extends React.Component {
         HTTP.post("", {
             query: `
                 mutation {
-                    createPackage(_package: {
+                    createPackage(pack: {
                         name: "${this.data.name}",
                         price: ${this.data.price},
                         excursions: [${this.data.excursions}],

@@ -153,7 +153,7 @@ class Login extends React.Component {
         <Snackbar
           place="tl"
           color="success"
-          message="Su excursión ha sido reservada con éxito"
+          message="Su usuario ha sido creado con éxito"
           open={this.state.tl}
           closeNotification={() => this.setState({ tl: false })}
           close
