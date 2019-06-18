@@ -96,10 +96,9 @@ class TransactionsCompanyAdd extends React.Component {
     //   this.props.history.push("/user/transactions");
     // });
 
-    // Http.post("", { query: query }, true, true).then( (res) =>
-    // console.log(res)
-    //   //this.props.window.push("/admin/transactions")
-    // );
+    Http.post("", { query: query }, true, true).then( (res) =>
+      this.props.window.push("/admin/transactions")
+    );
   };
 
   render() {
@@ -117,7 +116,7 @@ class TransactionsCompanyAdd extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} md={6} sm={12}>
                     <CustomInput
-                      labelText="Company ID"
+                      labelText=" y ID"
                       id="company"
                       formControlProps={{
                         fullWidth: true
