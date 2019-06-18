@@ -85,16 +85,16 @@ class TransactionsCompanyAdd extends React.Component {
                   }
                 }`;
 
-    // Http.post(
-    //   "",
-    //   {
-    //     query: query
-    //   },
-    //   true,
-    //   true
-    // ).then(res => {
-    //   this.props.history.push("/user/transactions");
-    // });
+    Http.post(
+     "",
+      {
+         query: query
+       },
+       true,
+       true
+     ).then(res => {
+       this.props.history.push("/user/transactions");
+     });
 
     Http.post("", { query: query }, true, true).then( (res) =>
       this.props.window.push("/admin/transactions")
