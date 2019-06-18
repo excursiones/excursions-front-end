@@ -5,14 +5,6 @@ import ExcursionDetails from "./ExcursionDetails";
 import HTTP from "../../../services/RestService";
 import { ExcursionFields } from "./ExcursionsPackagesFields";
 
-const readOnlyFields = {
-  id: "id"
-}
-
-const requiredFields = {
-
-}
-
 export default class ShowAllExcursions extends React.Component {
   constructor(props) {
     super(props);
@@ -61,7 +53,9 @@ export default class ShowAllExcursions extends React.Component {
     HTTP.post("", {
       query: `
                 mutation {
-                    deleteExcursion(id: ${excursion.id})
+                    deleteExcursion(id: ${excursion.id}){
+                      id
+                    }
                 }
             `
     }).then(res => {
@@ -109,8 +103,8 @@ export default class ShowAllExcursions extends React.Component {
               data={data}
               onDelete={this.deleteExcursion}
               onSave={this.updateExcursion}
-              requiredFields={requiredFields}
-              readOnlyFields={readOnlyFields}
+              requiredFields={{}}
+              readOnlyFields={ExcursionFields.readOnlyFields}
               key={"excursion" + index}
               index={index}
               fields={ExcursionFields.fields} />

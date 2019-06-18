@@ -5,6 +5,7 @@ import Button from "../../../components/CustomButtons/Button";
 import ShowAndEditInfo from "../ShowInfo/ShowAndEditInfo";
 import ExcursionField from "./ExcursionField";
 
+import HTTP from "../../../services/RestService";
 
 
 export default class PackageDetails extends React.Component {
@@ -17,15 +18,31 @@ export default class PackageDetails extends React.Component {
             name: ""
         }
         this.excursionsId = {}
-        this.data = {
+        this.data = {};
 
-        }
-
+        Object.assign(this.data, this.props.data);
     }
 
     componentDidMount() {
+        const excursions = {};
+
+        this.data.id_excursions.map((excursion_id, index) => {
+            const data = { id_excursions: excursion_id };
+            this.excursionsId[index] = excursion_id;
+            excursions[index] = <ExcursionField
+                key={index}
+                data={data}
+                fields={this.props.excursionFields}
+                onDelete={this.deleteExcursionField}
+                onChange={this.onExcursionFieldChange}
+                requiredFields={this.props.excursionFields}
+                index={index}
+            />;
+        });
+
         this.setState((state, props) => ({
-            name: props.data["name"]
+            name: props.data["name"],
+            excursionFields: excursions
         }))
     }
 
@@ -51,9 +68,25 @@ export default class PackageDetails extends React.Component {
         (value !== this.excursionsId[index]) && (this.excursionsId[index] = value)
     }
 
-    onSave = () => {
-        const data = {};
-        this.props.onSave(this.props.id, Object.assign(data, this.excursionsId, this.data))
+    onSave = (id, data) => {
+        HTTP.post("", {
+            query: `
+            mutation {
+                updatePackage ( id: ${this.data.id_packages}, _package: {
+                  name: "${data.name}",
+                  price:${data.price},
+                  state:${data.state}
+                }){
+                  id_packages
+                }
+              }
+            `
+        }).then(res => {
+            res && alert("Package has been updated successfully");
+        }).catch(err => {
+            console.error(err);
+
+        })
     }
 
     addExcursionHandler = () => {
@@ -68,7 +101,6 @@ export default class PackageDetails extends React.Component {
             onChange={this.onExcursionFieldChange}
             requiredFields={this.props.excursionFields}
             index={index} />;
-        console.log("added " + index);
 
         this.setState({
             excursionFields: excursions_aux,

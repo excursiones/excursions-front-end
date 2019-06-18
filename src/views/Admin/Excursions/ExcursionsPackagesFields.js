@@ -32,5 +32,40 @@ export const ExcursionFields = {
             type: "number"
         }
     ],
+    readOnlyFields: {
+        id: "id"
+    }
 
+}
+
+export const PackageFields = {
+    fields: [
+        {
+            labelText: "Id",
+            id: "id_packages"
+        },
+        {
+            labelText: "Name",
+            id: "name"
+        },
+        {
+            labelText: "Price",
+            id: "price",
+            type: "number"
+        },
+        {
+            labelText: "State",
+            id: "state"
+        }
+    ],
+    excursionFields: [
+        {
+            labelText: "Excursion Id",
+            id: "id_excursions",
+            type: "number"
+        }
+    ],
+    readOnlyFields: {
+        id_packages: "id_packages"
+    }
 }

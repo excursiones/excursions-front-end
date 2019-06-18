@@ -6,29 +6,7 @@ import Field from "../ShowInfo/Field";
 import ExcursionField from "./ExcursionField";
 import SaveButton from "../ShowInfo/SaveButton";
 import HTTP from '../../../services/RestService';
-
-const fields = [
-    {
-        labelText: "Name",
-        id: "name",
-
-    },
-    {
-        labelText: "Price",
-        id: "price"
-    },
-    {
-        labelText: "State",
-        id: "state"
-    }
-]
-
-const excursionFields = [
-    {
-        labelText: "Excursion Id",
-        id: "excursion-id"
-    }
-]
+import { PackageFields } from "./ExcursionsPackagesFields";
 
 
 export default class AddPackage extends React.Component {
@@ -59,10 +37,10 @@ export default class AddPackage extends React.Component {
         excursions_aux[index] = (
             <ExcursionField
                 key={index}
-                fields={excursionFields}
+                fields={PackageFields.excursionFields}
                 onDelete={this.deleteExcursionField}
                 onChange={this.onExcursionFieldChange}
-                requiredFields={excursionFields}
+                requiredFields={PackageFields.excursionFields}
                 index={index}
             />
         );
@@ -84,8 +62,25 @@ export default class AddPackage extends React.Component {
 
     onSave = () => {
         Object.assign(this.data, { excursions: Object.values(this.excursionsId) });
+        HTTP.post("", {
+            query: `
+                mutation {
+                    createPackage(_package: {
+                        name: "${this.data.name}",
+                        price: ${this.data.price},
+                        excursions: [${this.data.excursions}],
+                    }){
+                        id_packages
+                    }
+                }
+            `
+        }).then(res => {
+            console.log(res);
+            res && alert("Package has been Created successfully");
+        }).catch(err => {
+            console.error(err);
 
-        console.log(this.data);
+        })
 
     }
 
@@ -93,8 +88,8 @@ export default class AddPackage extends React.Component {
         return (
             <div>
                 <GridContainer>
-                    {fields.map((field, index) => (
-                        <Field
+                    {PackageFields.fields.map((field, index) =>
+                        (field.id !== "id_packages" && field.id !== "state") && (<Field
                             key={index}
                             labelText={field.labelText}
                             id={field.id}
@@ -104,10 +99,11 @@ export default class AddPackage extends React.Component {
                             inputProps={{
                                 onChange: this.onChange,
                                 readOnly: false,
-                                name: field.id
+                                name: field.id,
+                                type: field.type
                             }}
-                        />
-                    ))}
+                        />)
+                    )}
                 </GridContainer>
                 {
                     Object.values(this.state.excursions).map((excursionField) =>

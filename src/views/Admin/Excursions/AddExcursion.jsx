@@ -21,7 +21,6 @@ export default class AddExcursion extends React.Component {
     }
 
     onSave = () => {
-        console.log(this.data);
         HTTP.post("", {
             query: `
                 mutation {

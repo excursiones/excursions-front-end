@@ -39,6 +39,7 @@ export default class ExcursionField extends React.Component {
                             defaultValue: this.props.data ? this.props.data[field.id] : null,
                             onChange: this.onChange,
                             name: field.id,
+                            type: field.type,
                             required: this.props.requiredFields ? (field.id === this.props.requiredFields[field.id]) : false
                         }} />))
                 }
