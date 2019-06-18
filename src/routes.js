@@ -47,16 +47,8 @@ const dashboardRoutes = [
   },
   // Admin
   {
-    path: "/user",
-    name: "User View!",
-    rtlName: "لوحة القيادة",
-    icon: Dashboard,
-    component: UserProfile,
-    layout: "/admin"
-  },
-  {
     path: "/home",
-    name: "AdminHome",
+    name: "Home",
     rtlName: "لوحة القيادة",
     icon: Home,
     component: AdminHome,
@@ -108,13 +100,6 @@ const dashboardRoutes = [
     name: "Excursions",
     icon: Map,
     component: Excursions,
-    layout: "/admin"
-  },
-  {
-    path: "/allies",
-    name: "Allies",
-    icon: Dashboard,
-    component: Allies,
     layout: "/admin"
   },
   {

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import ChartistGraph from "react-chartist";
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
+import { withRouter } from "react-router-dom";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
@@ -84,7 +85,10 @@ class TransactionsUserAdd extends React.Component {
       body: JSON.stringify({
         query: query
       })
-    }).then((window.location.href = "http://localhost:3000/user/transactions"));
+    }).then( res => {
+      this.props.history.push("/user/transactions");
+    }
+    );
   };
   handleChangeSp = (ent, val) => {
     this.setState({ [ent]: val.target.value });
@@ -180,4 +184,4 @@ TransactionsUserAdd.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(TransactionsUserAdd);
+export default withRouter(withStyles(dashboardStyle)(TransactionsUserAdd));
