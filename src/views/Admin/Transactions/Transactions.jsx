@@ -66,7 +66,7 @@ allCompanyPayments {
 }`
       },
       true,
-      false
+      true
     ).then(res => {
       res = res["data"];
       for (var i = 0; i < res.data.allCompanyPayments.length; i++) {

@@ -1,5 +1,6 @@
 import axios from "axios";
 import auth from "./AuthService.jsx";
+import { cpus } from "os";
 
 const baseURL = "http://3.130.101.212/graphql?";
 
@@ -41,6 +42,9 @@ export default {
         headers = { Authorization: "Bearer " + auth.getToken() };
 
       var url = withBase ? baseURL : "" + path;
+
+      console.log(url);
+      console.log(body);
 
       axios
         .post(url, body, { headers: headers })
