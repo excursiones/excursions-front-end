@@ -22,6 +22,14 @@ export default class AddExcursion extends React.Component {
       });
   };
 
+  onChange = (event) => {
+    const { name, value } = event.target;
+    ((typeof this.data[name] === "string") ? (value.trim() !== this.data[name].trim()) : true) && (this.data[name] = value);
+    (name === "name") && this.setState({
+      name: value
+    })
+  }
+
   onSave = () => {
     HTTP.post("", {
       query: `
