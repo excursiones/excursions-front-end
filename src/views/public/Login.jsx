@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import NavPills from "components/NavPills/NavPills.jsx";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { withRouter } from "react-router-dom";
 
 const loginStyles = theme => ({
   root: {
@@ -69,8 +70,9 @@ class Login extends React.Component {
   }
 
   handleSubmitLogin(event) {
-    console.log(this.state);
     event.preventDefault();
+    localStorage.setItem("jwt", "asdasda.dsafasdfdasfadsfds.asdfasdfsadfasd");
+    this.props.history.push("/user/home");
   }
 
   handleChangeLogin(event) {
@@ -79,9 +81,22 @@ class Login extends React.Component {
     this.setState(stt);
   }
 
+  parseJwt(token) {
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(function(c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+
+    return JSON.parse(jsonPayload);
+  }
+
   handleSubmitSignUp(event) {
-    event.preventDefault();
-    console.log(this.state);
     event.preventDefault();
   }
 
@@ -248,4 +263,4 @@ class Login extends React.Component {
   }
 }
 
-export default withStyles(loginStyles)(Login);
+export default withRouter(withStyles(loginStyles)(Login));

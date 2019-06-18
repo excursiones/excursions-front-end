@@ -78,8 +78,7 @@ class ExcursionItem extends React.Component {
     Http.post(
       "",
       {
-        query:
-          "mutation { createReservation(reservation: { id_user: 1 id_excursion:" + this.props.id + " id_type: 2 cancelled: false }) } "
+        query: `mutation { createReservation(reservation: { id_user: "21" id_excursion: "${this.props.id}" id_type: "2" cancelled: false }) { id} }`
       },
       false,
       true
@@ -128,7 +127,7 @@ class ExcursionItem extends React.Component {
               onClick={this.createBooking}
               disabled={this.state.buttonColor == "success"}
             >
-              {this.props.price}
+              $ {this.props.price} USD
             </Button>
           </div>
         </CardBody>

@@ -5,20 +5,29 @@ import Button from "../../../components/CustomButtons/Button";
 import Field from "../ShowInfo/Field";
 import ExcursionField from "./ExcursionField";
 import SaveButton from "../ShowInfo/SaveButton";
+
 import HTTP from '../../../services/RestService';
 import { PackageFields } from "./ExcursionsPackagesFields";
 
 
 export default class AddPackage extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
             excursions: {}
         };
-        this.excursionsId = {}
+        this.excursionsId = {};
         this.data = {};
     }
+
+    deleteExcursionField = index => {
+        const excursions_aux = this.state.excursions;
+        delete excursions_aux[index];
+        delete this.excursionsId[index];
+        this.setState({
+            excursions: excursions_aux
+        });
+    };
 
     deleteExcursionField = (index) => {
         const excursions_aux = this.state.excursions;
@@ -53,12 +62,12 @@ export default class AddPackage extends React.Component {
         (value !== this.excursionsId[index]) && (this.excursionsId[index] = value)
     }
 
-    onChange = (event) => {
+    onChange = event => {
         const { name, value } = event.target;
         !this.data[name] && (this.data[name] = "");
         if (this.data[name.trim() === ""]) return;
-        (this.data[name].trim() !== value) && (this.data[name] = value);
-    }
+        this.data[name].trim() !== value && (this.data[name] = value);
+    };
 
     onSave = () => {
         Object.assign(this.data, { excursions: Object.values(this.excursionsId) });

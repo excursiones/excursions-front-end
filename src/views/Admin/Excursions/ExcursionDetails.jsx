@@ -20,7 +20,8 @@ export default class ExcursionDetails extends React.Component {
           onDelete={this.props.onDelete}
           requiredFields={this.props.requiredFields}
           onSave={this.props.onSave}
-          readOnlyFields={this.props.readOnlyFields} />
+          readOnlyFields={this.props.readOnlyFields}
+        />
       </div>
     );
   }

@@ -11,8 +11,7 @@ export default class ShowAllExcursions extends React.Component {
     this.state = {
       // Datos de Prueba
       excursions: []
-    }
-
+    };
   }
 
   componentDidMount() {
@@ -36,20 +35,22 @@ export default class ShowAllExcursions extends React.Component {
                 }
               }
             `
-    }).then(res => {
-      const { allExcursions } = res.data.data;
-      const excursions = this.state.excursions;
-      allExcursions.map(excursion => excursions.push(excursion));
-      this.setState({
-        excursions: excursions
-      })
-    }).catch(err => {
-      console.error(err);
     })
-  }
+      .then(res => {
+        const { allExcursions } = res.data.data;
+        const excursions = this.state.excursions;
+        allExcursions.map(excursion => excursions.push(excursion));
+        this.setState({
+          excursions: excursions
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
 
-  deleteExcursion = (index) => {
-    let excursion = this.state.excursions[index]
+  deleteExcursion = index => {
+    let excursion = this.state.excursions[index];
     HTTP.post("", {
       query: `
                 mutation {
@@ -60,11 +61,11 @@ export default class ShowAllExcursions extends React.Component {
             `
     }).then(res => {
       res && alert("Excursion has been deleted successfully!");
-    })
+    });
     excursion = this.state.excursions;
     delete excursion[index];
     this.setState({ excursions: excursion });
-  }
+  };
 
   updateExcursion = (index, data) => {
     const excursion = data;
@@ -85,21 +86,23 @@ export default class ShowAllExcursions extends React.Component {
                     }
                 }
             `
-    }).then(res => {
-      res && res.data.data.updateExcursion.id && alert("Excursion has been updated succesfully!");
-    }).catch(err => {
-      console.error(err);
-
     })
-
-  }
+      .then(res => {
+        res &&
+          res.data.data.updateExcursion.id &&
+          alert("Excursion has been updated succesfully!");
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
 
   render() {
     return (
       <div>
-        {
-          this.state.excursions && this.state.excursions.map((data, index) => (
-            < ExcursionDetails
+        {this.state.excursions &&
+          this.state.excursions.map((data, index) => (
+            <ExcursionDetails
               data={data}
               onDelete={this.deleteExcursion}
               onSave={this.updateExcursion}
@@ -107,9 +110,9 @@ export default class ShowAllExcursions extends React.Component {
               readOnlyFields={ExcursionFields.readOnlyFields}
               key={"excursion" + index}
               index={index}
-              fields={ExcursionFields.fields} />
-          ))
-        }
+              fields={ExcursionFields.fields}
+            />
+          ))}
       </div>
     )
   }

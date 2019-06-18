@@ -51,19 +51,45 @@ class HomePage extends React.Component {
       bl: false,
       bc: false,
       br: false,
-      excursions: []
+      excursions: [],
+      reservations: []
     };
 
     Http.post(
       "",
       {
-        query: "query { allExcursions { id title:name price coordinates:location description } }"
+        query:
+          "query { allExcursions { id title:name price coordinates:location description } }"
       },
       false,
       true
     ).then(res => {
-      console.log(res);
+      if (
+        res["data"] == null ||
+        res["data"] == undefined ||
+        res["data"]["data"] == null ||
+        res["data"]["data"] == undefined
+      )
+        return;
+
       this.setState({ excursions: res["data"]["data"]["allExcursions"] || [] });
+      Http.post(
+        "",
+        { query: "query { allReservations { id id_user id_type cancelled } }" },
+        false,
+        true
+      ).then(res => {
+        if (res["data"]["data"] == null) return;
+
+        res["data"]["data"]["allReservations"].forEach(item => {
+          if (item["id_user"] == 1) {
+
+            this.setState(prevState => ({
+              reservations: [...prevState.reservations, item]
+            }));
+          }
+        });
+      });
     });
   }
 

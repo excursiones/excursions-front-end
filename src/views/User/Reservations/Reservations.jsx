@@ -1,12 +1,12 @@
 import React from "react";
 import Http from "services/RestService.jsx";
-
-import Reservation from 'views/User/Reservations/Reservation.jsx';
-import Grid from "@material-ui/core/Grid";
+import Reservation from "views/User/Reservations/Reservation.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import Card from "components/Card/Card.jsx";
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle";
 import withStyles from "@material-ui/core/styles/withStyles";
+import GridItem from "components/Grid/GridItem.jsx";
+import GridContainer from "components/Grid/GridContainer.jsx";
 
 var styles = {
   ...dashboardStyle,
@@ -20,59 +20,56 @@ var styles = {
   }
 };
 
-
-class Reservations extends React.Component {  
-
+class Reservations extends React.Component {
   constructor() {
     super();
-    this.state = {      
-      reservations: []           
+    this.state = {
+      reservations: [],
+      user_id: localStorage.getItem("user_id") || 21
     };
-  }  
+  }
 
-  componentDidMount (){
+  componentDidMount() {
     Http.post(
       "",
       {
-        query:
-        'query { reservationsByUserId(User_id: "1"){id_excursion id_type cancelled created_at}}'
+        query: `query { allUserPendingReservations(id: ${
+          this.state.user_id
+        }){id id_excursion id_type cancelled created_at }}`
       },
       false,
       true
-    ).then((response) => {
-      console.log(response)
-      const reservations = response.data.data.reservationsByUserId;
-      this.setState({reservations});      
+    ).then(response => {
+      const reservations = response.data.data.allUserPendingReservations;
+      this.setState({ reservations });
     });
+  }
 
-  }   
-
-  render() {  
-    const { classes } = this.props;  
+  render() {
+    const { classes } = this.props;
     return (
-      <div> 
-        <Card>
-        <CardHeader color="primary">
-                <h4 className={classes.cardTitle}>Reservations</h4>
-        </CardHeader> 
-        </Card>          
-        <Grid>            
-            {this.state.reservations.map((reservation) => {
-              return <Reservation 
-              key = {reservation.Id}
-              id = {reservation.Id}
-              fecha = {reservation.Created_at}
-              user_id = {reservation.User_id}
-              id_excursion = {reservation.Excursion_id}
-              id_type = {reservation.Type_id}
-              cancelled = {reservation.Cancelled} />
-            })}                   
-        </Grid>
-      </div>        
-    )
+      <div>
+        <h4 className={classes.cardTitle}>Reservations</h4>
+        <GridContainer>
+          {(this.state.reservations || []).map((reservation, index) => {
+            return (
+              <GridItem xs={12} sm={6} md={5} lg={4} xl={3} key={index}>
+                <Reservation
+                  id={reservation.id}
+                  fecha={reservation.created_at}
+                  user_id={this.state.user_id}
+                  id_excursion={reservation.id_excursion}
+                  id_type={reservation.id_type}
+                  cancelled={reservation.cancelled}
+                  created_at={reservation.created_at}
+                />
+              </GridItem>
+            );
+          })}
+        </GridContainer>
+      </div>
+    );
   }
 }
 
 export default withStyles(styles)(Reservations);
-
-

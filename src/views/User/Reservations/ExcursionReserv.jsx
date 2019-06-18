@@ -47,11 +47,12 @@ const styles = {
   }
 };
 
-class ExcursionReserv extends React.Component {  
-
-
+class ExcursionReserv extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
   render() {
-
     const { classes } = this.props;
     var coord = {};
     try {
@@ -60,9 +61,10 @@ class ExcursionReserv extends React.Component {
       coord = { lat: 10.39972, lng: -75.51444 };
     }
 
+    console.log(this.props);
+
     return (
       <Card style={{ width: "20rem" }}>
-        
         <Map
           className={classes.cardImgTop}
           data-src="holder.js/100px180/"
@@ -76,12 +78,8 @@ class ExcursionReserv extends React.Component {
             {this.props.city}
           </Typography>
           <p>{this.props.description}</p>
-          <div className={classes.textRight}>
-            {this.props.price}
-          </div>
-          <div className={classes.textRight}>
-            {this.props.state}
-          </div>
+          <div className={classes.textRight}>{this.props.price}</div>
+          <div className={classes.textRight}>{this.props.state}</div>
         </CardBody>
       </Card>
     );
