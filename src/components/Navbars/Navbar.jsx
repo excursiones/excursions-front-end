@@ -43,15 +43,6 @@ function Header({ ...props }) {
         <Hidden smDown implementation="css">
           {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}
         </Hidden>
-        <Hidden mdUp implementation="css">
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={props.handleDrawerToggle}
-          >
-            <Menu />
-          </IconButton>
-        </Hidden>
       </Toolbar>
     </AppBar>
   );

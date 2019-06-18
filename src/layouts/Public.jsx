@@ -111,7 +111,6 @@ const switchRoutes = (
                 <div className={classes.wrapper}>
                 
                 <div className={classes.mainPanel} ref="mainPanel">
-                
                 {/* On the /maps route we want the map to be on full screen - this is not possible 
                     if the content and conatiner classes are present because they have some paddings 
                 which would make the map smaller */}

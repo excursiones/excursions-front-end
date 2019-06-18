@@ -52,6 +52,7 @@ class ExcursionReserv extends React.Component {
     super(props);
     console.log(props);
   }
+  
   render() {
     const { classes } = this.props;
     var coord = {};

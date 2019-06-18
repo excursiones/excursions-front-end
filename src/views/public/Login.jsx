@@ -7,6 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import NavPills from "components/NavPills/NavPills.jsx";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { withRouter } from "react-router-dom";
+import Snackbar from "components/Snackbar/Snackbar.jsx";
+import Http from "../../services/RestService.jsx";
+import auth from "../../services/AuthService.jsx";
 
 const loginStyles = theme => ({
   root: {
@@ -63,6 +66,10 @@ class Login extends React.Component {
       }
     };
 
+    if (auth.isAdmin() != null) {
+      this.redirectToHome(auth.isAdmin());
+    }
+
     this.handleChangeSignUp = this.handleChangeSignUp.bind(this);
     this.handleSubmitSignUp = this.handleSubmitSignUp.bind(this);
     this.handleChangeLogin = this.handleChangeLogin.bind(this);
@@ -71,8 +78,22 @@ class Login extends React.Component {
 
   handleSubmitLogin(event) {
     event.preventDefault();
-    localStorage.setItem("jwt", "asdasda.dsafasdfdasfadsfds.asdfasdfsadfasd");
-    this.props.history.push("/user/home");
+
+    auth
+      .login(this.state.login.email, this.state.login.password)
+      .then(res => {
+        this.redirectToHome(res);
+        this.showNotification("tl");
+      })
+      .catch(err => {
+        console.log(err);
+        this.showNotification("tr");
+      });
+  }
+
+  redirectToHome(isAdmin) {
+    if (isAdmin) this.props.history.push("/admin/home");
+    else this.props.history.push("/user/home");
   }
 
   handleChangeLogin(event) {
@@ -81,23 +102,41 @@ class Login extends React.Component {
     this.setState(stt);
   }
 
-  parseJwt(token) {
-    var base64Url = token.split(".")[1];
-    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    var jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map(function(c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
-
-    return JSON.parse(jsonPayload);
-  }
-
   handleSubmitSignUp(event) {
     event.preventDefault();
+
+    Http.post(
+      "http://3.13.112.89:3000/sign_up",
+      {
+        auth: {
+          email: this.state.signup.email,
+          password: this.state.signup.password,
+          name: `${this.state.signup.firstName} ${this.state.signup.lastName}`
+        }
+      },
+      false,
+      false
+    )
+      .then(admin => {
+        console.log(admin);
+        this.showNotification("tl");
+      })
+      .catch(() => {
+        this.showNotification("tr");
+      });
+  }
+
+  showNotification(place) {
+    var x = [];
+    x[place] = true;
+    this.setState(x);
+    this.alertTimeout = setTimeout(
+      function() {
+        x[place] = false;
+        this.setState(x);
+      }.bind(this),
+      6000
+    );
   }
 
   handleChangeSignUp(event) {
@@ -111,6 +150,24 @@ class Login extends React.Component {
 
     return (
       <Grid container component="main" className={classes.root}>
+        <Snackbar
+          place="tl"
+          color="success"
+          message="Su excursión ha sido reservada con éxito"
+          open={this.state.tl}
+          closeNotification={() => this.setState({ tl: false })}
+          close
+        />
+
+        <Snackbar
+          place="tr"
+          color="danger"
+          message="Información incorrecta, ingrésela de nuevo"
+          open={this.state.tr}
+          closeNotification={() => this.setState({ tr: false })}
+          close
+        />
+
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
         <Grid
           item

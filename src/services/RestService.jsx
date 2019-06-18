@@ -1,11 +1,12 @@
 import axios from "axios";
+import auth from "./AuthService.jsx";
 
 const baseURL = "http://3.130.101.212/graphql?";
 
 export default {
   process_error(error) {
     if (error.response != null && error.response.status === 401) {
-      // auth.notifyTokenInvalid();
+      auth.notifyTokenInvalid();
     } else {
       console.log(error);
     }
@@ -15,8 +16,8 @@ export default {
     var response = new Promise((resolve, reject) => {
       var headers = {};
 
-      if (withCredentials) console.log();
-      //headers = { Authorization: "Bearer " + auth.getToken() };
+      if (withCredentials)
+        headers = { Authorization: "Bearer " + auth.getToken() };
 
       var url = withBase ? baseURL : "" + path;
 
@@ -36,8 +37,8 @@ export default {
     var response = new Promise((resolve, reject) => {
       var headers = {};
 
-      if (withCredentials) console.log();
-      //headers = { Authorization: "Bearer " + auth.getToken() };
+      if (withCredentials)
+        headers = { Authorization: "Bearer " + auth.getToken() };
 
       var url = withBase ? baseURL : "" + path;
 
@@ -56,8 +57,8 @@ export default {
     var response = new Promise((resolve, reject) => {
       var headers = {};
 
-      if (withCredentials) console.log();
-      //headers = { Authorization: "Bearer " + auth.getToken() };
+      if (withCredentials)
+        headers = { Authorization: "Bearer " + auth.getToken() };
 
       var url = withBase ? baseURL : "" + path;
 
@@ -76,8 +77,8 @@ export default {
     var response = new Promise((resolve, reject) => {
       var headers = {};
 
-      if (withCredentials) console.log();
-      //headers = { Authorization: "Bearer " + auth.getToken() };
+      if (withCredentials)
+        headers = { Authorization: "Bearer " + auth.getToken() };
 
       var url = withBase ? baseURL : "" + path;
 
