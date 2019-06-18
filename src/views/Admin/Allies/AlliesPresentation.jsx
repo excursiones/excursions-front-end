@@ -83,7 +83,6 @@ class AlliesPresentation extends React.Component {
         this.setState({
             accountField: null
         });
-        console.log(this.state);
 
     }
 
@@ -145,8 +144,7 @@ class AlliesPresentation extends React.Component {
                         }
                     `
         }).then(res => {
-            console.log(res);
-
+            res && alert("Account has been succesfully " + (debt.id ? "updated" : "created"));
             this.account.id = res.data.data[debt.id ? "updateAccount" : "createAccount"].id;
         }).catch(err => {
             console.error(err);
@@ -176,7 +174,7 @@ class AlliesPresentation extends React.Component {
               }
             `
         }).then(res => {
-            console.log(res.data.data);
+            res && alert("Allie has been successfully updated");
         }).catch(err => {
             console.error(err);
         })

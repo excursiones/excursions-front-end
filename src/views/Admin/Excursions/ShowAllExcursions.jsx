@@ -118,6 +118,7 @@ export default class ShowAllExcursions extends React.Component {
             />
           ))}
       </div>
-    );
+    )
   }
+
 }
