@@ -78,7 +78,7 @@ class HomePage extends React.Component {
       Http.post(
         "",
         { query: `query { allReservations { id id_user id_type cancelled } }`},
-        false,
+        true,
         true
       ).then(res => {
         if (res["data"]["data"] == null) return;

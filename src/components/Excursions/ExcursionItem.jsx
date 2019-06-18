@@ -17,6 +17,7 @@ import { Typography } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Http from "../../services/RestService";
 import Snackbar from "components/Snackbar/Snackbar.jsx";
+import auth from "../../services/AuthService";
 
 const mapStyle = require("./map_style.json");
 
@@ -78,7 +79,7 @@ class ExcursionItem extends React.Component {
     Http.post(
       "",
       {
-        query: `mutation { createReservation(reservation: { id_user: "21" id_excursion: "${this.props.id}" id_type: "2" cancelled: false }) { id} }`
+        query: `mutation { createReservation(reservation: { id_user: "${auth.getUserId()}" id_excursion: "${this.props.id}" id_type: "2" cancelled: false }) { id} }`
       },
       false,
       true
