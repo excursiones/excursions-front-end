@@ -24,18 +24,30 @@ export default {
   login(email, password) {
     let promise = new Promise((resolve, reject) => {
       Http.post(
-        "http://3.13.112.89:3000/sign_in",
+        "",
+        //"http://3.13.112.89:3000/sign_in",
         {
-          auth: {
-            email: email,
-            password: password
-          }
+          query: `
+            mutation {
+              sign_in ( signInCredentials: {
+                auth: {
+                  email: "${email}",
+                  password: "${password}"
+                }
+              }){
+                token
+              }
+            }
+          `
+
         },
-        false,
-        false
+        true,
+        true
       )
         .then(response => {
-          jwt = response.data.token;
+          jwt = response.data.data.sign_in.token;
+          console.log(jwt);
+
           //localStorage.setItem("token", jwt);
           window.localStorage.setItem("token", jwt);
           resolve(this.isAdmin());
@@ -70,7 +82,7 @@ export default {
     var jsonPayload = decodeURIComponent(
       atob(base64)
         .split("")
-        .map(function(c) {
+        .map(function (c) {
           return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
         })
         .join("")
