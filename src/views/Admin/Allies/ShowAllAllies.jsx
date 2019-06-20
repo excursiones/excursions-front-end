@@ -50,8 +50,6 @@ export default class ShowAllAllies extends React.Component {
                 data: data
             })
 
-            // Parse the fields
-
         }).catch(err => {
             console.error(err);
 

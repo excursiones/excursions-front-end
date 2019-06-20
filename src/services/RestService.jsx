@@ -2,7 +2,7 @@ import axios from "axios";
 import auth from "./AuthService.jsx";
 import { cpus } from "os";
 
-const baseURL = "http://3.130.101.212/graphql?";
+const baseURL = "http://localhost:5000/graphql?"; //"http://3.130.101.212/graphql?";
 
 export default {
   process_error(error) {

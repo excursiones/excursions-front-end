@@ -8,6 +8,7 @@ import AddDebt from "./AddDebt";
 import Field from "../ShowInfo/Field";
 import SaveButton from "../ShowInfo/SaveButton";
 import HTTP from "../../../services/RestService"
+import Auth from "../../../services/AuthService"
 import { AlliesFields, DebtsFields } from "./AlliesFields"
 
 class AddAllie extends React.Component {
@@ -83,7 +84,8 @@ class AddAllie extends React.Component {
             data[key] = this.data[AlliesFields.parseToView[key]];
         });
 
-        // Petición para Actualizar.
+        // Petición para Crear.
+
         HTTP.post("", {
             query: `
             mutation {
