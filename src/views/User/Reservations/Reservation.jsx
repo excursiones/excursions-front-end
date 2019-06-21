@@ -74,7 +74,7 @@ class Reservation extends React.Component {
       {
         query: `mutation { cancelReservation(id:${this.props.id}) }`
       },
-      false,
+      true,
       true
     ).then(() => {
       this.setState({ cancelled: true });

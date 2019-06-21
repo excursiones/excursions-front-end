@@ -46,7 +46,7 @@ class TransactionsUser extends React.Component {
             }
           }`
       },
-      false,
+      true,
       true
     ).then(res => {
       res = res["data"];
