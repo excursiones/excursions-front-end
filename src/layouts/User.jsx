@@ -16,6 +16,7 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 import NotFound from "views/public/NotFound.jsx";
+import Auth from "../services/AuthService.jsx";
 
 const switchRoutes = (
     <Switch>{routes.map((prop, key) => {
@@ -76,7 +77,7 @@ const switchRoutes = (
         };
         
         checkUser = () => {
-
+            console.log(Auth.getPayload());
         };
 
         componentDidMount() {
@@ -104,6 +105,9 @@ const switchRoutes = (
             
             var userRoutes;
             var userRoutesHead;
+
+            console.log(this.checkUser());
+
             if(routes != undefined) {
                 userRoutes = routes.filter(function (route) {
                     return route.layout == "/user" && route.nShow != true;
@@ -138,6 +142,7 @@ const switchRoutes = (
                 {/* On the /maps route we want the map to be on full screen - this is not possible 
                     if the content and conatiner classes are present because they have some paddings 
                 which would make the map smaller */}
+                
                 {this.getRoute() ? (
                     <div className={classes.content}>
                     <div className={classes.container}>{switchRoutes}</div>

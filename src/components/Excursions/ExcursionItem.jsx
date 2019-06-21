@@ -143,9 +143,9 @@ ExcursionItem.propTypes = {
   title: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  coordinates: PropTypes.object.isRequired,
-  status: PropTypes.object.isRequired
+  price: PropTypes.number.isRequired,
+  // coordinates: PropTypes.object.isRequired,
+  // status: PropTypes.object.isRequired
 };
 
 ExcursionItem.defaultProps = {

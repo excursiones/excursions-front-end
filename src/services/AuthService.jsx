@@ -46,7 +46,6 @@ export default {
       )
         .then(response => {
           jwt = response.data.data.sign_in.token;
-          console.log(jwt);
 
           //localStorage.setItem("token", jwt);
           window.localStorage.setItem("token", jwt);
@@ -71,7 +70,6 @@ export default {
   },
 
   getPayload() {
-    console.log(this.parseJwt(jwt));
     return this.parseJwt(jwt);
   },
 
