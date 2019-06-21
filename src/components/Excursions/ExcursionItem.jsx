@@ -81,7 +81,7 @@ class ExcursionItem extends React.Component {
       {
         query: `mutation { createReservation(reservation: { id_user: "${auth.getUserId()}" id_excursion: "${this.props.id}" id_type: "2" cancelled: false }) { id} }`
       },
-      false,
+      true,
       true
     ).then(() => {
       this.setState({ buttonColor: "success" });
