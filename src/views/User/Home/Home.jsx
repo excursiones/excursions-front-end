@@ -63,7 +63,7 @@ class HomePage extends React.Component {
         query:
           "query { allExcursions { id title:name price coordinates:location description } }"
       },
-      false,
+      true,
       true
     ).then(res => {
       if (
