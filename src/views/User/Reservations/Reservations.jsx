@@ -32,7 +32,7 @@ class Reservations extends React.Component {
     Http.post(
       "",
       {
-        query: `query { reservationsByUserId(id: ${
+        query: `query { allUserPendingReservations(id: ${
           this.state.user_id
         }){id id_excursion id_type cancelled created_at }}`
       },
