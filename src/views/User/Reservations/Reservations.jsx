@@ -36,7 +36,7 @@ class Reservations extends React.Component {
           this.state.user_id
         }){id id_excursion id_type cancelled created_at }}`
       },
-      false,
+      true,
       true
     ).then(response => {
       if(response.data.data == null) return;
