@@ -82,6 +82,7 @@ class HomePage extends React.Component {
         true
       ).then(res => {
         if (res["data"]["data"] == null) return;
+        if (res["data"]["data"]["allReservations"] == null) return;
 
         res["data"]["data"]["allReservations"].forEach(item => {
           if (item["id_user"] == this.state.user_id) {
