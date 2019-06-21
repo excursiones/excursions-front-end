@@ -95,6 +95,7 @@ allUserPayments {
       true
     ).then(res => {
       res = res["data"];
+      if (res.data == null || res.data.allUserPayments == null) return;
       for (var i = 0; i < res.data.allUserPayments.length; i++) {
         var data = Array.from(Object.values(res.data.allUserPayments[i]));
         this.setState(prevState => ({

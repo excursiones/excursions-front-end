@@ -39,6 +39,7 @@ class Reservations extends React.Component {
       false,
       true
     ).then(response => {
+      if(response.data.data == null) return;
       const reservations = response.data.data.allUserPendingReservations;
       this.setState({ reservations });
     });
