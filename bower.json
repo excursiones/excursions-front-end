@@ -1,10 +1,10 @@
 {
-  "name": "material-dashboard-react",
-  "homepage": "https://github.com/creativetimofficial/material-dashboard-react",
+  "name": "excursions",
+  "homepage": "",
   "authors": [
-    "creative-tim"
+    "software_architecture"
   ],
-  "description": "A Badass Material-UI Kit based on Material Design",
+  "description": "Your excursions",
   "main": "public/index.html",
   "keywords": [
     "material",

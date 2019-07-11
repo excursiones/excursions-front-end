@@ -37,9 +37,7 @@ export default {
               }){
                 token
               }
-            }
-          `
-
+            }`
         },
         true,
         true

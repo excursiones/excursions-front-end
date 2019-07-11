@@ -14,9 +14,9 @@ import TransactionsUserAdd from "views/Admin/Transactions/Transactions_add_user.
 import Transactions from "views/Admin/Transactions/Transactions.jsx";
 import Allies from "./views/Admin/Allies/Allies";
 import Excursions from "./views/Admin/Excursions/Excursions";
-import UserProfile from "./views/Admin/UserProfile/UserProfile.jsx";
 import Login from "./views/public/Login.jsx";
 import NotFound from "./views/public/NotFound.jsx";
+import Forbidden from "./views/public/Forbidden.jsx";
 
 const dashboardRoutes = [
   // Public routes
@@ -25,6 +25,14 @@ const dashboardRoutes = [
     name: "Login | Excursiones",
     rtlName: "Login | Excursiones",
     component: Login,
+    icon: Dashboard,
+    layout: "/public"
+  },
+  {
+    path: "/forbidden.html",
+    name: "Página prohibida",
+    rtlName: "Página no permitida",
+    component: Forbidden,
     icon: Dashboard,
     layout: "/public"
   },

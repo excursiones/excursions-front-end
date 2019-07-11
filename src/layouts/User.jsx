@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import PropTypes from "prop-types";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -75,10 +75,6 @@ const switchRoutes = (
                 this.setState({ mobileOpen: false });
             }
         };
-        
-        checkUser = () => {
-            console.log(Auth.getPayload());
-        };
 
         componentDidMount() {
             if (navigator.platform.indexOf("Win") > -1) {
@@ -106,7 +102,9 @@ const switchRoutes = (
             var userRoutes;
             var userRoutesHead;
 
-            console.log(this.checkUser());
+            if(Auth.isAdmin()) {
+                return <Redirect to="/forbidden.html" />;
+            }
 
             if(routes != undefined) {
                 userRoutes = routes.filter(function (route) {
